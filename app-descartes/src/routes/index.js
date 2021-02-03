@@ -9,14 +9,11 @@ import { AuthContext } from './context';
 
 // telas
 import Login from '../screens/Login';
+
 import CCDados from '../screens/CriarConta/Dados';
 import CCTipoEmpresa from '../screens/CriarConta/TipoEmpresa';
 import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
-/*
-import AddMaterial from '../screens/Empresa/AddMaterial';
-import MinhaConta from '../screens/MinhaConta';
-import Home from '../screens/Inicio';
-*/
+
 const Stack = createStackNavigator();
 const RootNavigator = () => {
   return (
