@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from '../screens/Login';
-
+// telas
 import HomeEmpresa from '../screens/Empresa/Home';
 import MinhaContaEmpresa from '../screens/Empresa/MinhaConta';
 import AddMaterial from '../screens/Empresa/AddMaterial';
