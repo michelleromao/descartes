@@ -4,12 +4,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { Entypo } from '@expo/vector-icons';
 import TabBarNavigation from './TabBarNavigation';
 import { AuthContext } from './context';
 
-// telas
 import Login from '../screens/Login';
-
 import CCDados from '../screens/CriarConta/Dados';
 import CCTipoEmpresa from '../screens/CriarConta/TipoEmpresa';
 import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
@@ -43,6 +42,9 @@ const AuthStack = () => {
         headerBackTitle: 'Voltar',
         headerBackTitleVisible: true,
         headerBackTitleStyle: { fontSize: 15 },
+        headerBackImage: () => (
+          <Entypo name="chevron-left" size={20} color="#352166" />
+        ),
       }}
     >
       <Stack.Screen
