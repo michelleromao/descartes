@@ -4,11 +4,12 @@ import { Form as Unform } from '@unform/mobile';
 
 export const Container = styled.View`
   width: 100%;
-  margin-top: 15%;
+  padding-top: 10%;
   margin-bottom: 20px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  z-index: 100;
 `;
 
 export const Form = styled(Unform)`
