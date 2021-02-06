@@ -80,7 +80,7 @@ const Routes = () => {
       signIn: () => {
         setIsLoading(false);
         setUserToken('------');
-        AsyncStorage.setItem('@storage_Key', 'empresa');
+        AsyncStorage.setItem('@storage_Key', 'artesao');
       },
       signUp: () => {
         setIsLoading(false);
