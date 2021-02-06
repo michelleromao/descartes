@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Feather } from '@expo/vector-icons';
 
 import MinhaConta from '../screens/MinhaConta';
 import Notificacao from '../screens/Notificacao';
@@ -103,7 +104,18 @@ const HomeNavigation = () => {
       <Home.Screen
         name="Home"
         component={Inicio}
-        options={{ headerTitle: 'Início' }}
+        options={{
+          headerTitle: 'Início',
+          headerLeft: () => {
+            if (userType === 'empresaDoadora') {
+              return (
+                <TouchableOpacity style={{ marginLeft: 25 }}>
+                  <Feather name="menu" size={30} color="#352166" />
+                </TouchableOpacity>
+              );
+            }
+          },
+        }}
       />
     </Home.Navigator>
   );
