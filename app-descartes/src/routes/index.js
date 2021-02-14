@@ -42,6 +42,7 @@ const AuthStack = () => {
         headerBackTitle: 'Voltar',
         headerBackTitleVisible: true,
         headerBackTitleStyle: { fontSize: 15 },
+        headerPressColorAndroid: 'transparent',
         headerBackImage: () => (
           <Entypo name="chevron-left" size={20} color="#352166" />
         ),
@@ -60,12 +61,12 @@ const AuthStack = () => {
       <Stack.Screen
         name="UserType"
         component={CCTipoUsuario}
-        options={{ headerTitle: 'Criar conta' }}
+        options={{ headerTitle: 'Pessoa física' }}
       />
       <Stack.Screen
         name="CompanyType"
         component={CCTipoEmpresa}
-        options={{ headerTitle: 'Criar conta' }}
+        options={{ headerTitle: 'Pessoa jurídica' }}
       />
     </Stack.Navigator>
   );
