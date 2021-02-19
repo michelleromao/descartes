@@ -1,7 +1,8 @@
 import React from 'react';
+import EnterpriseProfile from '../../components/EnterpriseProfile';
 
 const Notificacao = () => {
-  return <></>;
+  return <EnterpriseProfile></EnterpriseProfile>;
 };
 
 export default Notificacao;
