@@ -52,14 +52,46 @@ const Favoritos = () => {
       </Container>
 
       {index === 1 && (
-        <View style={{ width: '100%' }}>
-          <Swipe type="favoriteCompany" list={data} />
-        </View>
+        <>
+          {data.company.length !== 0 ? (
+            <View style={{ width: '100%' }}>
+              <Swipe type="favoriteCompany" list={data} />
+            </View>
+          ) : (
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                marginTop: 33,
+              }}
+            >
+              <Text style={{ color: '#D6692B' }}>
+                Você não possui empresas favoritadas
+              </Text>
+            </View>
+          )}
+        </>
       )}
       {index === 2 && (
-        <View style={{ width: '100%' }}>
-          <Swipe type="favoriteResidue" list={data} />
-        </View>
+        <>
+          {data.residue.length !== 0 ? (
+            <View style={{ width: '100%' }}>
+              <Swipe type="favoriteResidue" list={data} />
+            </View>
+          ) : (
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                marginTop: 33,
+              }}
+            >
+              <Text style={{ color: '#D6692B' }}>
+                Você não possui resíduos favoritados
+              </Text>
+            </View>
+          )}
+        </>
       )}
       {index === 3 && (
         <View style={{ width: '100%', alignItems: 'center' }}>
