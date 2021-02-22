@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 
 import Button from '../../components/Button';
+
 import MapHeader from '../../components/MapHeader';
 import Pin from '../../../assets/pin.png';
 import { MenuButton, CallToAdd, TextCallToAdd } from './styles';

@@ -19,12 +19,12 @@ export const Favorite = () => {
   );
 };
 
-export const Map = () => {
+export const Map = ({ width, height }) => {
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      width="30"
-      height="37"
+      width={width}
+      height={height}
       fill="none"
       viewBox="0 0 30 37"
     >

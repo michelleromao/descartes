@@ -205,7 +205,7 @@ const BottomTabNavigation = () => {
           if (route.name === 'Home') {
             return (
               <View style={focused ? { opacity: 1 } : { opacity: 0.5 }}>
-                <Map />
+                <Map width={30} height={37} />
               </View>
             );
           }
