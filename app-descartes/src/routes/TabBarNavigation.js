@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { View, TouchableOpacity } from 'react-native';
 
@@ -75,6 +76,8 @@ const NotificationNavigation = () => {
 
 const Home = createStackNavigator();
 const HomeNavigation = () => {
+  const navigation = useNavigation();
+
   const [userType, setUserType] = useState(null);
   const getUserType = useCallback(async () => {
     const response = await AsyncStorage.getItem('@storage_Key');
@@ -109,7 +112,10 @@ const HomeNavigation = () => {
           headerLeft: () => {
             if (userType === 'empresaDoadora') {
               return (
-                <TouchableOpacity style={{ marginLeft: 25 }}>
+                <TouchableOpacity
+                  style={{ marginLeft: 25 }}
+                  onPress={() => navigation.navigate('Menu')}
+                >
                   <Feather name="menu" size={30} color="#352166" />
                 </TouchableOpacity>
               );

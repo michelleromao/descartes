@@ -1,4 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, StyleSheet } from 'react-native';
@@ -12,6 +14,8 @@ import Pin from '../../../assets/pin.png';
 import { MenuButton, CallToAdd, TextCallToAdd } from './styles';
 
 const Home = () => {
+  const navigation = useNavigation();
+
   const [userType, setUserType] = useState(null);
   const getUserType = useCallback(async () => {
     const response = await AsyncStorage.getItem('@storage_Key');
@@ -34,7 +38,7 @@ const Home = () => {
               }}
             >
               <MapHeader>
-                <MenuButton>
+                <MenuButton onPress={() => navigation.navigate('Menu')}>
                   <Feather name="menu" size={30} color="#352166" />
                 </MenuButton>
               </MapHeader>
