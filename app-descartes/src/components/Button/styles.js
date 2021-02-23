@@ -7,9 +7,11 @@ export const View = styled.View`
       ? shade(0.2, '#D6692B')
       : props.color === 'purple'
       ? shade(0.2, '#352166')
+      : props.color === 'green'
+      ? shade(0.2, '#6CB9AA')
       : shade(0.2, '#F1F1F1')};
   border-radius: 15px;
-  width: 100%;
+  width: ${props => (props.size ? props.size : '100%')};
   margin-bottom: 20px;
   margin-top: 10px;
 `;
@@ -24,12 +26,16 @@ export const Container = styled.TouchableOpacity`
       ? '#D6692B'
       : props.color === 'purple'
       ? '#352166'
+      : props.color === 'green'
+      ? '#6CB9AA'
       : '#F1F1F1'};
   border-radius: 15px;
   border: ${props =>
     props.color === 'orange'
       ? 'none'
       : props.color === 'purple'
+      ? 'none'
+      : props.color === 'green'
       ? 'none'
       : '3px solid #352166'};
 `;
@@ -39,6 +45,8 @@ export const TextButton = styled.Text`
     props.color === 'orange'
       ? '#f1f1f1'
       : props.color === 'purple'
+      ? '#f1f1f1'
+      : props.color === 'green'
       ? '#f1f1f1'
       : '#352166'};
   font-size: 15px;
