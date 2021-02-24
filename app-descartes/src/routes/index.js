@@ -12,6 +12,7 @@ import Login from '../screens/Login';
 import CCDados from '../screens/CriarConta/Dados';
 import CCTipoEmpresa from '../screens/CriarConta/TipoEmpresa';
 import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
+import { MyDrawer } from './DrawerNavigation';
 
 const Stack = createStackNavigator();
 const RootNavigator = () => {
