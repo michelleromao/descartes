@@ -14,6 +14,7 @@ import CCTipoEmpresa from '../screens/CriarConta/TipoEmpresa';
 import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
 
 const Stack = createStackNavigator();
+
 const RootNavigator = () => {
   return (
     <Stack.Navigator
@@ -54,19 +55,19 @@ const AuthStack = () => {
         options={{ headerTitle: 'Entrar' }}
       />
       <Stack.Screen
-        name="Create"
+        name="DataAccount"
         component={CCDados}
         options={{ headerTitle: 'Criar conta' }}
       />
       <Stack.Screen
-        name="UserType"
+        name="Create"
         component={CCTipoUsuario}
-        options={{ headerTitle: 'Pessoa física' }}
+        options={{ headerTitle: 'Criar conta' }}
       />
       <Stack.Screen
         name="CompanyType"
         component={CCTipoEmpresa}
-        options={{ headerTitle: 'Pessoa jurídica' }}
+        options={{ headerTitle: 'Criar conta' }}
       />
     </Stack.Navigator>
   );

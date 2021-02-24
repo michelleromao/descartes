@@ -1,61 +1,40 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { View, ScrollView } from 'react-native';
-import { Form } from '@unform/mobile';
-import { AuthContext } from '../../../routes/context';
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-import Input from '../../../components/Input';
+import { View, Image } from 'react-native';
+
 import Button from '../../../components/Button';
-
 import LogoDescartes from '../../../assets/logo.png';
-import { AddressInformation, Logo } from './styles';
 
-const TipoUsuario = ({ navigation }) => {
-  const { signIn } = React.useContext(AuthContext);
-  const formRef = useRef(null);
-
-  function handleSubmit(data) {
-    console.log(data);
-  }
+const TipoUsuario = () => {
+  const navigation = useNavigation();
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled">
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginLeft: 25,
-          marginRight: 25,
-          marginTop: '25%',
-        }}
-      >
-        <Logo source={LogoDescartes} />
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input name="name" type="text" label="Nome" required />
-          <Input
-            name="cpf"
-            type="text"
-            label="CPF"
-            keyboardType="number-pad"
-            required
-          />
-          <Input name="phone" type="text" label="Telefone" required />
-          <Input name="address" type="text" label="Endereço" required />
-          <AddressInformation>possível alterar após 90 dias</AddressInformation>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        marginLeft: 25,
+        marginRight: 25,
+      }}
+    >
+      <Image
+        source={LogoDescartes}
+        style={{ marginTop: '25%', marginBottom: '50%' }}
+      />
 
-          <Input name="email" type="email" label="E-mail" required />
-          <Input
-            name="password"
-            type="password"
-            label="Senha"
-            secureTextEntry
-            required
-          />
-        </Form>
-
-        <Button color="purple" title="Continuar" onPress={() => signIn()} />
-      </View>
-    </ScrollView>
+      <Button
+        title="pessoa física"
+        color="purple"
+        onPress={() => navigation.navigate('DataAccount', { userType: 'PF' })}
+      />
+      <Button
+        title="pessoa jurídica"
+        color="purple"
+        onPress={() => navigation.navigate('DataAccount', { userType: 'PJ' })}
+      />
+    </View>
   );
 };
 
