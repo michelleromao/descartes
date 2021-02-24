@@ -18,6 +18,7 @@ import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
 const Stack = createStackNavigator();
 const ModalStack = createStackNavigator();
 
+
 const RootNavigator = () => {
   return (
     <Stack.Navigator
@@ -81,6 +82,7 @@ const AuthStack = () => {
         headerBackTitle: 'Voltar',
         headerBackTitleVisible: true,
         headerBackTitleStyle: { fontSize: 15 },
+        headerPressColorAndroid: 'transparent',
         headerBackImage: () => (
           <Entypo name="chevron-left" size={20} color="#352166" />
         ),
@@ -92,12 +94,12 @@ const AuthStack = () => {
         options={{ headerTitle: 'Entrar' }}
       />
       <Stack.Screen
-        name="Create"
+        name="DataAccount"
         component={CCDados}
         options={{ headerTitle: 'Criar conta' }}
       />
       <Stack.Screen
-        name="UserType"
+        name="Create"
         component={CCTipoUsuario}
         options={{ headerTitle: 'Criar conta' }}
       />
