@@ -8,12 +8,16 @@ import { Entypo } from '@expo/vector-icons';
 import TabBarNavigation from './TabBarNavigation';
 import { AuthContext } from './context';
 
+import Drawer from '../components/Drawer';
+
 import Login from '../screens/Login';
 import CCDados from '../screens/CriarConta/Dados';
 import CCTipoEmpresa from '../screens/CriarConta/TipoEmpresa';
 import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
 
 const Stack = createStackNavigator();
+const ModalStack = createStackNavigator();
+
 
 const RootNavigator = () => {
   return (
@@ -25,6 +29,41 @@ const RootNavigator = () => {
     >
       <Stack.Screen name="Root" component={TabBarNavigation} />
     </Stack.Navigator>
+  );
+};
+
+const ModalNavigator = () => {
+  return (
+    <ModalStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: 'transparent' },
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: ({ current: { progress } }) => ({
+          cardStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 0.5, 0.9, 1],
+              outputRange: [0, 0.25, 0.7, 1],
+            }),
+          },
+          overlayStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.5],
+              extrapolate: 'clamp',
+            }),
+          },
+        }),
+      }}
+      mode="modal"
+    >
+      <ModalStack.Screen
+        name="Home"
+        component={RootNavigator}
+        options={{ headerShown: false }}
+      />
+      <ModalStack.Screen name="Menu" component={Drawer} />
+    </ModalStack.Navigator>
   );
 };
 
@@ -114,7 +153,7 @@ const Routes = () => {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         <SafeAreaView style={{ flex: 1 }}>
-          {userToken ? <RootNavigator /> : <AuthStack />}
+          {userToken ? <ModalNavigator /> : <AuthStack />}
         </SafeAreaView>
       </NavigationContainer>
     </AuthContext.Provider>
