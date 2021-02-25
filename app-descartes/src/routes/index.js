@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { SafeAreaView, View, ActivityIndicator } from 'react-native';
+import { SafeAreaView, View, ActivityIndicator, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,7 +17,6 @@ import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
 
 const Stack = createStackNavigator();
 const ModalStack = createStackNavigator();
-
 
 const RootNavigator = () => {
   return (
@@ -67,6 +66,14 @@ const ModalNavigator = () => {
   );
 };
 
+function LogoTitle() {
+  return (
+    <Text style={{ color: '#352166', fontSize: 20, fontWeight: 'bold' }}>
+      Criar Conta
+    </Text>
+  );
+}
+
 const AuthStack = () => {
   return (
     <Stack.Navigator
@@ -78,6 +85,7 @@ const AuthStack = () => {
         headerTintColor: '#352166',
         headerTitleAlign: 'center',
         headerTitleAllowFontScaling: true,
+        headerTitleStyle: { fontWeight: '600' },
         cardStyle: { backgroundColor: '#F1F1F1' },
         headerBackTitle: 'Voltar',
         headerBackTitleVisible: true,
@@ -96,7 +104,9 @@ const AuthStack = () => {
       <Stack.Screen
         name="DataAccount"
         component={CCDados}
-        options={{ headerTitle: 'Criar conta' }}
+        options={({ navigation, route }) => ({
+          headerTitle: props => <LogoTitle {...props} />,
+        })}
       />
       <Stack.Screen
         name="Create"
@@ -106,7 +116,9 @@ const AuthStack = () => {
       <Stack.Screen
         name="CompanyType"
         component={CCTipoEmpresa}
-        options={{ headerTitle: 'Criar conta' }}
+        options={{
+          headerTitle: 'Criar conta',
+        }}
       />
     </Stack.Navigator>
   );
