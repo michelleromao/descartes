@@ -47,11 +47,10 @@ export const Info = styled.Text`
     color:#F1F1F1;
     
 `;
-export const Icons = styled.View`
-  
-  width: 12px;
-  height: 15px;
-  color: #F1F1F1;
+export const Icons = styled.div`
+    width: 12px;
+    height: 15px;
+    color: #F1F1F1;
 `;
 export const Foot = styled.View`
   background-color: #edcb59;
