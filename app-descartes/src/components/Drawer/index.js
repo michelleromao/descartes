@@ -47,9 +47,7 @@ const Drawer = () => {
         <BackgroundColor>
           <Modal>
             <TextModal>Deseja deslogar da conta?</TextModal>
-            <GroupButton
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
-            >
+            <GroupButton>
               <Button
                 color="orange"
                 title="Não"

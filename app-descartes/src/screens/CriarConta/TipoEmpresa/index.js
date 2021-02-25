@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { RadioButton } from 'react-native-paper';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, BackHandler, Alert } from 'react-native';
 import { AuthContext } from '../../../routes/context';
 
 import Button from '../../../components/Button';
@@ -16,13 +16,24 @@ import {
   ButtonQuestion,
   TextButton,
   TextOption,
+  BackgroundColor,
+  Modal,
+  TitleModal,
+  TextModal,
 } from './styles';
 
 const TipoEmpresa = () => {
   const { signUp } = React.useContext(AuthContext);
   const route = useRoute();
-
+  const [modal, setModal] = useState(false);
   const [checked, setChecked] = useState('doadora');
+
+  const handleOpenModal = useCallback(() => {
+    setModal(true);
+  }, []);
+  const handleCloseModal = useCallback(() => {
+    setModal(false);
+  }, []);
 
   const handleSignIn = useCallback(() => {
     const { data } = route.params;
@@ -30,10 +41,39 @@ const TipoEmpresa = () => {
       signUp();
       AsyncStorage.setItem('@storage_Key', 'empresaDoadora');
     }
-  }, [route, checked, signIn]);
+  }, [route, checked, signUp]);
 
   return (
     <>
+      {modal ? (
+        <BackgroundColor>
+          <Modal>
+            <TitleModal>Empresa Doadora</TitleModal>
+            <TextModal>
+              Empresa que atuará no Descartes doando resíduos recicláveis e
+              reutilizáveis para artesãos e pessoas interessadas em adquirir
+              esses materiais.
+            </TextModal>
+            <TitleModal>Empresa Vendedora</TitleModal>
+            <TextModal>
+              Empresa que atuará no Descartes vendendo resíduos recicláveis e
+              reutilizáveis para outras empresas que tenham interesse em
+              adquirir esses materiais para fins comerciais.
+            </TextModal>
+            <TitleModal>Empresa Compradora</TitleModal>
+            <TextModal>
+              Empresa que atuará no Descartes comprando resíduos recicláveis e
+              reutilizáveis de outras empresas que tem interesse em adquirir
+              esses materiais pelo Marketplace do Descartes para fins
+              comerciais.
+            </TextModal>
+            <Button title="entendi" onPress={() => handleCloseModal()} />
+          </Modal>
+        </BackgroundColor>
+      ) : (
+        false
+      )}
+
       <ScrollView keyboardShouldPersistTaps="handled">
         <View
           style={{
@@ -47,7 +87,7 @@ const TipoEmpresa = () => {
           <Logo source={LogoDescartes} />
           <Title>
             <Question>Que tipo de empresa é?</Question>
-            <ButtonQuestion>
+            <ButtonQuestion onPress={() => handleOpenModal()}>
               <TextButton>?</TextButton>
             </ButtonQuestion>
           </Title>
