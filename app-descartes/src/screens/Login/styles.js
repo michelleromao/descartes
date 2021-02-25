@@ -1,12 +1,12 @@
 import styled from 'styled-components/native';
 
 export const Logo = styled.Image`
-  margin-bottom: 78px;
+  margin-bottom: 25%;
 `;
 
 export const ForgotButton = styled.TouchableOpacity`
-  margin-top: -16px;
-  margin-bottom: 20px;
+  margin-top: -5%;
+  margin-bottom: 10%;
   align-self: flex-end;
 `;
 export const ForgotText = styled.Text`

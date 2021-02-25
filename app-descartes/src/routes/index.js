@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { SafeAreaView, View, ActivityIndicator } from 'react-native';
+import { SafeAreaView, View, ActivityIndicator, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,12 +8,16 @@ import { Entypo } from '@expo/vector-icons';
 import TabBarNavigation from './TabBarNavigation';
 import { AuthContext } from './context';
 
+import Drawer from '../components/Drawer';
+
 import Login from '../screens/Login';
 import CCDados from '../screens/CriarConta/Dados';
 import CCTipoEmpresa from '../screens/CriarConta/TipoEmpresa';
 import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
 
 const Stack = createStackNavigator();
+const ModalStack = createStackNavigator();
+
 const RootNavigator = () => {
   return (
     <Stack.Navigator
@@ -27,6 +31,49 @@ const RootNavigator = () => {
   );
 };
 
+const ModalNavigator = () => {
+  return (
+    <ModalStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: 'transparent' },
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: ({ current: { progress } }) => ({
+          cardStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 0.5, 0.9, 1],
+              outputRange: [0, 0.25, 0.7, 1],
+            }),
+          },
+          overlayStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.5],
+              extrapolate: 'clamp',
+            }),
+          },
+        }),
+      }}
+      mode="modal"
+    >
+      <ModalStack.Screen
+        name="Home"
+        component={RootNavigator}
+        options={{ headerShown: false }}
+      />
+      <ModalStack.Screen name="Menu" component={Drawer} />
+    </ModalStack.Navigator>
+  );
+};
+
+function LogoTitle() {
+  return (
+    <Text style={{ color: '#352166', fontSize: 20, fontWeight: 'bold' }}>
+      Criar Conta
+    </Text>
+  );
+}
+
 const AuthStack = () => {
   return (
     <Stack.Navigator
@@ -38,10 +85,12 @@ const AuthStack = () => {
         headerTintColor: '#352166',
         headerTitleAlign: 'center',
         headerTitleAllowFontScaling: true,
+        headerTitleStyle: { fontWeight: '600' },
         cardStyle: { backgroundColor: '#F1F1F1' },
         headerBackTitle: 'Voltar',
         headerBackTitleVisible: true,
         headerBackTitleStyle: { fontSize: 15 },
+        headerPressColorAndroid: 'transparent',
         headerBackImage: () => (
           <Entypo name="chevron-left" size={20} color="#352166" />
         ),
@@ -53,19 +102,23 @@ const AuthStack = () => {
         options={{ headerTitle: 'Entrar' }}
       />
       <Stack.Screen
-        name="Create"
+        name="DataAccount"
         component={CCDados}
-        options={{ headerTitle: 'Criar conta' }}
+        options={({ navigation, route }) => ({
+          headerTitle: props => <LogoTitle {...props} />,
+        })}
       />
       <Stack.Screen
-        name="UserType"
+        name="Create"
         component={CCTipoUsuario}
         options={{ headerTitle: 'Criar conta' }}
       />
       <Stack.Screen
         name="CompanyType"
         component={CCTipoEmpresa}
-        options={{ headerTitle: 'Criar conta' }}
+        options={{
+          headerTitle: 'Criar conta',
+        }}
       />
     </Stack.Navigator>
   );
@@ -112,7 +165,7 @@ const Routes = () => {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         <SafeAreaView style={{ flex: 1 }}>
-          {userToken ? <RootNavigator /> : <AuthStack />}
+          {userToken ? <ModalNavigator /> : <AuthStack />}
         </SafeAreaView>
       </NavigationContainer>
     </AuthContext.Provider>
