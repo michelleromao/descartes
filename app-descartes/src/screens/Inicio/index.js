@@ -8,6 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 
 import Button from '../../components/Button';
+import Selos from '../../components/Seals';
 
 import MapHeader from '../../components/MapHeader';
 import Pin from '../../../assets/pin.png';
@@ -75,6 +76,8 @@ const Home = () => {
               flex: 1,
             }}
           >
+            <Selos></Selos>
+
             <CallToAdd>
               <TextCallToAdd>Sem resíduos adicionados</TextCallToAdd>
               <Button color="orange" title="adicionar agora" />
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     height: '100%',
     width: '100%',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   map: {
     ...StyleSheet.absoluteFillObject,
