@@ -12,6 +12,7 @@ import Button from '../../components/Button';
 import MapHeader from '../../components/MapHeader';
 import Pin from '../../../assets/pin.png';
 import { MenuButton, CallToAdd, TextCallToAdd } from './styles';
+import Carousel from '../../components/Carousel';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -79,6 +80,7 @@ const Home = () => {
               <Button color="orange" title="adicionar agora" />
             </CallToAdd>
           </View>
+          <Carousel />
         </>
       )}
 
