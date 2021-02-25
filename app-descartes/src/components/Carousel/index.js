@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, ScrollView, Dimensions, Text, StyleSheet } from 'react-native';
-
+import Flag from "../../assets/flag.png";
 const {width} = Dimensions.get("window");
 const height = width * 0.35;
 const images = [
@@ -24,20 +24,24 @@ export default class Carousel extends React.Component {
     render() {
         return (
             <View style={style.container}>
-                <ScrollView 
-                  pagingEnabled 
+              <View style={style.flag}>
+                <Image source={Flag} />
+              </View>
+                <ScrollView
+                  pagingEnabled
                   horizontal
-                  
                   onScroll={this.change}
                   showsHorizontalScrollIndicator={false}
                   style={style.scroll}>
                   {
                       images.map((image, index) => (
+                        <View style={style.containerImg}>
                           <Image
                               key={index}
                               source={{ uri: image }}
                               style={style.image}
                           />
+                          </View>
                       ))
                   }
                 </ScrollView>
@@ -57,22 +61,35 @@ export default class Carousel extends React.Component {
     container: {
         marginTop: 10,
         marginBottom: 30,
-        width,
-        height
+        height,
+        backgroundColor: '#f1f1f1',
+    },
+    flag :{
+      position: 'absolute',
+      zIndex: 10,
+      marginLeft: "5%",
+      marginTop: "3%",
     },
     scroll: {
         width,
         height
     },
+    containerImg:{
+      width,
+      paddingLeft: 20,
+      paddingRight: 20,
+    },
     image: {
-        width,
+        width: '100%',
         height,
-        resizeMode: 'cover'
+        resizeMode: 'cover',
+        borderRadius: 10
+
     },
     pagination: {
-      flexDirection: 'row', 
-      position: 'absolute', 
-      bottom: 0, 
+      flexDirection: 'row',
+      position: 'absolute',
+      bottom: 0,
       alignSelf: 'center'
     },
     pagingText: {

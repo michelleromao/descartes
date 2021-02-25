@@ -70,20 +70,23 @@ const Home = () => {
           <View
             style={{
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
               marginLeft: 25,
               marginRight: 25,
               flex: 1,
             }}
           >
-            <Selos></Selos>
-
+            <View style={{ marginTop: 30, marginLeft: 20, marginRight: 20 }}>
+              <Selos />
+            </View>
             <CallToAdd>
               <TextCallToAdd>Sem resíduos adicionados</TextCallToAdd>
               <Button color="orange" title="adicionar agora" />
             </CallToAdd>
+            <View>
+              <Carousel />
+            </View>
           </View>
-          <Carousel />
         </>
       )}
 
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     height: '100%',
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
