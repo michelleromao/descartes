@@ -1,12 +1,39 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
-  flex-direction: column;
-  align-items: center;
+export const View = styled.View`
+  flex: 1;
+  width: 414px;
+  height: 299px;
+
+`;
+export const Card = styled.View`
+  
+  flex-direction: row;
   width: 100%;
   height: 224px;
-  padding: 95px;
-  background-color: #352166; 
+
+  background: #352166;
+  border: 1px solid #352166;
+
+  span {
+    font-size:13px;
+    color:#F1F1F1;
+  }
+  
+`;
+export const Text = styled.Text`
+  font-size: 18px;
+  color:#F1F1F1;
+`;
+
+export const CardFoot = styled.View`
+  
+  flex-direction: row;
+  width: 100%;
+  height: 75px;
+
+  background: #EDCB59;
+  
 `;
 
 export const GraficaMonstro = styled.Text`
@@ -32,28 +59,3 @@ export const GraficaMonstro = styled.Text`
   color: #F1F1F1
 `;
 
-export const Info = styled.Text`
-    
-    
-    width: 191px;
-    height: 18px;
-
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px;
-    line-height: 28px;
-    /* identical to box height */
-
-    color:#F1F1F1;
-    
-`;
-export const Icons = styled.div`
-    width: 12px;
-    height: 15px;
-    color: #F1F1F1;
-`;
-export const Foot = styled.View`
-  background-color: #edcb59;
-  width: 100%;
-  height: 75px;
-`;
