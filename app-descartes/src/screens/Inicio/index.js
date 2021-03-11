@@ -27,6 +27,7 @@ const Home = () => {
   useEffect(() => {
     getUserType();
   }, [getUserType]);
+
   return (
     <>
       {userType === 'artesao' && (
@@ -81,7 +82,7 @@ const Home = () => {
             </View>
             <CallToAdd>
               <TextCallToAdd>Sem resíduos adicionados</TextCallToAdd>
-              <Button color="orange" title="adicionar agora" />
+              <Button color="orange" title="adicionar agora" onPress={() => navigation.navigate('AdcMaterial')} />
             </CallToAdd>
             <View>
               <Carousel />

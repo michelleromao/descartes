@@ -1,38 +1,18 @@
 import React from 'react';
-import { Form } from '@unform/mobile';
-import { Button, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
-import Button from '../../../components/Button';
-import Imput from '../../../components/Input';
+import FormAddMaterial from '../FormAddMaterial';
 
 const AddMaterial = () => {
   return (
-    <View>
-      <Form>
-      <Imput name="Tipo do Material" />
-      <Imput name="Quantidade/Tamanho" />
-      <Imput name="Disponibilidade" />
 
-      <Button 
-      title="+"
-      size=""
-      color=""
-      />
+    <ScrollView
+      contentContainerStyle={{ flex: 1 }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <FormAddMaterial />
 
-      <Button 
-      title="CANCELAR"
-      size=""
-      color="" 
-      />
-      <Button 
-      title="CADASTRAR"
-      size=""
-      color="" 
-      />
-
-      </Form>
-    </View>
-    
+    </ScrollView>
   );
  
 };
