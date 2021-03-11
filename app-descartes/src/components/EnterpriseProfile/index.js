@@ -1,6 +1,6 @@
 import React from 'react';
-import {Image, TouchableOpacity } from 'react-native';
-import {View, Card, Text, CardFoot, GraficaMonstro } from './styles';
+
+import {View, Card, Text, CardFoot, InfoText, Image, StampImage, IconImage, GraficaMonstro } from './styles';
 
 const EnterpriseProfile = () => {
 
@@ -8,8 +8,17 @@ const EnterpriseProfile = () => {
     <View>
       <Card>
         <Image source={require('../../assets/LogoMonster.png')} />
-
         <Text>Gráfica Monstro</Text>
+        <StampImage source={require('../../assets/selo1.png')} />
+
+        <IconImage source={require('../../assets/gps.png')} />
+        <InfoText>Rua Tabelião Enéas, 678</InfoText>
+
+        <IconImage source={require('../../assets/phone.png')} />
+        <InfoText>(88) 983162839</InfoText>
+
+        <IconImage source={require('../../assets/mail.png')} />
+        <InfoText>diretoria@graficamonstro.com.br</InfoText>
         
       </Card>
       <CardFoot>

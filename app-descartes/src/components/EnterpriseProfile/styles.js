@@ -24,6 +24,33 @@ export const Card = styled.View`
 export const Text = styled.Text`
   font-size: 18px;
   color:#F1F1F1;
+
+  width: 134px;
+  height: 25px;
+
+  font-style: normal;
+  font-weight: bold;
+  line-height: 25px;
+`;
+export const InfoText = styled.Text`
+  font-size: 13px;
+  color:#F1F1F1;
+`;
+export const Image = styled.Image`
+  
+  width: 50px;
+  height: 50px;
+  color:#F1F1F1;
+`;
+export const StampImage = styled.Image`
+  
+  width: 48px;
+  height: 48px;
+  color:#F1F1F1;
+`;
+export const IconImage = styled.Image`
+  
+  color:#F1F1F1;
 `;
 
 export const CardFoot = styled.View`
