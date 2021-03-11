@@ -1,7 +1,9 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 
-import FormAddMaterial from '../FormAddMaterial';
+import FormAddMaterial from './FormAddMaterial';
+import Botao from './Botao';
+import Botoes from './Botoes';
 
 const AddMaterial = () => {
   return (
@@ -11,7 +13,9 @@ const AddMaterial = () => {
       keyboardShouldPersistTaps="handled"
     >
       <FormAddMaterial />
-
+      <Botao />
+      <Botoes />
+     
     </ScrollView>
   );
  
