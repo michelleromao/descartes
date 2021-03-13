@@ -22,37 +22,82 @@ export const Card = styled.View`
   
 `;
 export const Text = styled.Text`
-  font-size: 18px;
+  font-size: 17px;
   color:#F1F1F1;
 
   width: 134px;
   height: 25px;
 
+  top:30px;
+  left: 20px;
   font-style: normal;
   font-weight: bold;
   line-height: 25px;
-`;
-export const InfoText = styled.Text`
-  font-size: 13px;
-  color:#F1F1F1;
+
+  @font-face {
+    src: local('Nunito-Sans-Bold'), url(../../../assets/fonts/NunitoSans-Bold.ttf) format('truetype');
+    font-family: Nunito-Sans-Bold, sans-serif;
+  }
 `;
 export const Image = styled.Image`
   
+  top: 20px;
+  left: 15px;
   width: 50px;
   height: 50px;
   color:#F1F1F1;
 `;
 export const StampImage = styled.Image`
   
+  top: 20px;
+  left: 40px;
   width: 48px;
   height: 48px;
   color:#F1F1F1;
 `;
-export const IconImage = styled.Image`
+export const IconImage1 = styled.Image`
   
   color:#F1F1F1;
-`;
 
+  top:100px;
+  right:200px; 
+`;
+export const InfoText1 = styled.Text`
+  font-size: 13px;
+  color:#F1F1F1;
+
+  top:100px;
+  right:190px; 
+`;
+export const IconImage2 = styled.Image`
+  
+  color:#F1F1F1;
+
+  top:140px;
+  right:360px; 
+`;
+export const InfoText2 = styled.Text`
+  font-size: 13px;
+  color:#F1F1F1;
+
+  top:140px;
+  right:355px; 
+`;
+export const IconImage3 = styled.Image`
+  
+  color:#F1F1F1;
+  width: 15px;
+  height: 12px;
+  top:180px;
+  right:475px; 
+`;
+export const InfoText3 = styled.Text`
+  font-size: 13px;
+  color:#F1F1F1;
+
+  top:180px;
+  right:465px; 
+`;
 export const CardFoot = styled.View`
   
   flex-direction: row;
@@ -63,26 +108,5 @@ export const CardFoot = styled.View`
   
 `;
 
-export const GraficaMonstro = styled.Text`
-  flex-direction:column;  
-  position: absolute;  
-  width: 134px;
-  height: 25px;
 
-  top: 33px;
-  left: 97px;
-
-  
-  @font-face {
-    src: local('Nunito-Sans-Bold'), url(../../../assets/fonts/NunitoSans-Bold.ttf) format('truetype');
-    font-family: Nunito-Sans-Bold, sans-serif;
-  }
-
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 25px;
-
-  color: #F1F1F1
-`;
 
