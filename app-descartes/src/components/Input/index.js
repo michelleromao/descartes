@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { useField } from '@unform/core';
-
 import { Container, TextInput, Label } from './styles';
 
-const Input = ({ name, label, size, ...rest }) => {
+const Input = ({ mask, maskType, name, label, size, ...rest }) => {
   const inputRef = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
