@@ -18,6 +18,8 @@ import { auth, firestore } from '../../../services/firebase';
 import { AuthContext } from '../../../routes/context';
 
 import Input from '../../../components/Input';
+import InputMask from '../../../components/InputMask';
+
 import Button from '../../../components/Button';
 
 import LogoDescartes from '../../../assets/logo.png';
@@ -286,20 +288,21 @@ const Dados = () => {
               {userType === 'PF' && (
                 <>
                   <Input name="name" type="text" label="Nome" required />
-                  <Input
+                  <InputMask
+                    type="cpf"
                     name="cpf"
-                    type="text"
+                    keyboardType="numeric"
                     label="CPF"
-                    keyboardType="number-pad"
                     required
                   />
-                  <Input
+                  <InputMask
+                    type="cel-phone"
                     name="phone"
-                    type="text"
+                    keyboardType="numeric"
                     label="Telefone"
-                    keyboardType="number-pad"
                     required
                   />
+
                   <Text style={{ color: '#d6692b', marginBottom: '2%' }}>
                     Endereço
                   </Text>
@@ -337,9 +340,10 @@ const Dados = () => {
                       required
                       size="48%"
                     />
-                    <Input
+                    <InputMask
+                      type="zip-code"
                       name="zipcode"
-                      type="text"
+                      keyboardType="numeric"
                       label="CEP"
                       required
                       size="48%"
@@ -393,18 +397,18 @@ const Dados = () => {
               {userType === 'PJ' && (
                 <>
                   <Input name="name" type="text" label="Nome" required />
-                  <Input
+                  <InputMask
                     name="cnpj"
-                    type="text"
+                    type="cnpj"
                     label="CNPJ"
                     keyboardType="number-pad"
                     required
                   />
-                  <Input
+                  <InputMask
+                    type="cel-phone"
                     name="phone"
-                    type="text"
+                    keyboardType="numeric"
                     label="Telefone"
-                    keyboardType="number-pad"
                     required
                   />
                   <Text style={{ color: '#d6692b', marginBottom: '2%' }}>
@@ -444,9 +448,10 @@ const Dados = () => {
                       required
                       size="48%"
                     />
-                    <Input
+                    <InputMask
+                      type="zip-code"
                       name="zipcode"
-                      type="text"
+                      keyboardType="numeric"
                       label="CEP"
                       required
                       size="48%"
