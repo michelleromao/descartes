@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+
 import { useNavigation } from '@react-navigation/native';
 
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
@@ -6,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
+import { firestore } from '../../services/firebase';
 
 import Button from '../../components/Button';
 import Selos from '../../components/Seals';
@@ -17,19 +19,40 @@ import Carousel from '../../components/Carousel';
 
 const Home = () => {
   const navigation = useNavigation();
+  const [latLong, setLatLong] = useState();
 
   const [userType, setUserType] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
+
   const getUserType = useCallback(async () => {
     const response = await AsyncStorage.getItem('@storage_Key');
     setUserType(response);
   }, []);
 
+  const getUserDetails = useCallback(async () => {
+    const response = await AsyncStorage.getItem('@storage_uid');
+    const snapshot = await firestore.collection('addresses').get();
+    snapshot.forEach(doc => {
+      if (doc.data().id_user === response) {
+        console.log('lat ', doc.data().lat, ' lon ', doc.data().lon);
+        setLatLong({
+          lat: doc.data().lat,
+          lon: doc.data().lon,
+        });
+      }
+    });
+  }, []);
+
   useEffect(() => {
     getUserType();
-  }, [getUserType]);
+    if (userType === 'craftsman') {
+      getUserDetails();
+    }
+  }, [getUserType, getUserDetails, userType]);
+
   return (
     <>
-      {userType === 'artesao' && (
+      {userType === 'craftsman' && latLong && (
         <>
           <View style={styles.container}>
             <View
@@ -49,15 +72,15 @@ const Home = () => {
               provider={PROVIDER_GOOGLE} // remove if not using Google Maps
               style={styles.map}
               region={{
-                latitude: -4.968422,
-                longitude: -39.0181,
+                latitude: latLong.lat,
+                longitude: latLong.lon,
                 latitudeDelta: 0.015,
                 longitudeDelta: 0.0121,
               }}
             >
               <Callout>
                 <Marker
-                  coordinate={{ latitude: -4.968422, longitude: -39.0181 }}
+                  coordinate={{ latitude: latLong.lat, longitude: latLong.lon }}
                   image={Pin}
                 />
               </Callout>
@@ -65,7 +88,7 @@ const Home = () => {
           </View>
         </>
       )}
-      {userType === 'empresaDoadora' && (
+      {userType === 'donorCompany' && (
         <>
           <View
             style={{

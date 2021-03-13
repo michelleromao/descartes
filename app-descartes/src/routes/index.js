@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { SafeAreaView, View, ActivityIndicator, Text } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -133,7 +132,6 @@ const Routes = () => {
       signIn: () => {
         setIsLoading(false);
         setUserToken('------');
-        AsyncStorage.setItem('@storage_Key', 'empresaDoadora');
       },
       signUp: () => {
         setIsLoading(false);
