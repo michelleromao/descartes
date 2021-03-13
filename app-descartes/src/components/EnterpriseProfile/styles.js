@@ -21,7 +21,7 @@ export const Card = styled.View`
   }
   
 `;
-export const Text = styled.Text`
+export const LogoText = styled.Text`
   font-size: 17px;
   color:#F1F1F1;
 
@@ -39,7 +39,7 @@ export const Text = styled.Text`
     font-family: Nunito-Sans-Bold, sans-serif;
   }
 `;
-export const Image = styled.Image`
+export const Logo = styled.Image`
   
   top: 20px;
   left: 15px;
@@ -55,35 +55,35 @@ export const StampImage = styled.Image`
   height: 48px;
   color:#F1F1F1;
 `;
-export const IconImage1 = styled.Image`
+export const AddressIcon = styled.Image`
   
   color:#F1F1F1;
 
   top:100px;
   right:200px; 
 `;
-export const InfoText1 = styled.Text`
+export const Address = styled.Text`
   font-size: 13px;
   color:#F1F1F1;
 
   top:100px;
   right:190px; 
 `;
-export const IconImage2 = styled.Image`
+export const PhoneIcon = styled.Image`
   
   color:#F1F1F1;
 
   top:140px;
   right:360px; 
 `;
-export const InfoText2 = styled.Text`
+export const Phone = styled.Text`
   font-size: 13px;
   color:#F1F1F1;
 
   top:140px;
   right:355px; 
 `;
-export const IconImage3 = styled.Image`
+export const EmailIcon = styled.Image`
   
   color:#F1F1F1;
   width: 15px;
@@ -91,7 +91,7 @@ export const IconImage3 = styled.Image`
   top:180px;
   right:475px; 
 `;
-export const InfoText3 = styled.Text`
+export const Email = styled.Text`
   font-size: 13px;
   color:#F1F1F1;
 
@@ -107,6 +107,40 @@ export const CardFoot = styled.View`
   background: #EDCB59;
   
 `;
+export const Leavings = styled.Text`
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 24px;
+  color: #352166;
 
+  top:15px;
+  left:60px; 
+`;
+export const NumLeavings = styled.Text`
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 24px;
+  color: #352166;
 
+  top:35px;
+  left:2px; 
+`;
+export const Negotiations = styled.Text`
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 24px;
+  color: #352166;
+
+  top:15px;
+  left:80px; 
+`;
+export const NumNegotiations = styled.Text`
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 24px;
+  color: #352166;
+
+  top:35px;
+  left:2px; 
+`;
 

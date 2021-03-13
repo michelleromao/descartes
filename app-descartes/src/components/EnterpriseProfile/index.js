@@ -3,16 +3,20 @@ import React from 'react';
 import {
   View, 
   Card, 
-  Text, 
   CardFoot, 
-  InfoText1, 
-  Image, 
-  StampImage, 
-  IconImage1, 
-  IconImage2, 
-  InfoText2 ,
-  IconImage3,
-  InfoText3
+  Logo, 
+  LogoText, 
+  StampImage,
+  Address, 
+  AddressIcon,  
+  PhoneIcon, 
+  Phone,
+  EmailIcon,
+  Email,
+  Leavings,
+  NumLeavings,
+  Negotiations,
+  NumNegotiations,
 } from './styles';
 
 const EnterpriseProfile = () => {
@@ -20,23 +24,26 @@ const EnterpriseProfile = () => {
   return (
     <View>
       <Card>
-        <Image source={require('../../assets/LogoMonster.png')} />
-        <Text>Gráfica Monstro</Text>
+        <Logo source={require('../../assets/LogoMonster.png')} />
+        <LogoText>Gráfica Monstro</LogoText>
         <StampImage source={require('../../assets/selo1.png')} />
 
-        <IconImage1 
-        source={require('../../assets/gps.png')} />
-        <InfoText1>Rua Tabelião Enéas, 678</InfoText1>
+        <AddressIcon source={require('../../assets/gps.png')} />
+        <Address>Rua Tabelião Enéas, 678</Address>
 
-        <IconImage2 source={require('../../assets/phone.png')} />
-        <InfoText2>(88)983162839</InfoText2>
+        <PhoneIcon source={require('../../assets/phone.png')} />
+        <Phone>(88)983162839</Phone>
 
-        <IconImage3 source={require('../../assets/mail.png')} />
-        <InfoText3>diretoria@graficamonstro.com.br</InfoText3>
+        <EmailIcon source={require('../../assets/mail.png')} />
+        <Email>diretoria@graficamonstro.com.br</Email>
         
       </Card>
+
       <CardFoot>
-        
+        <Leavings>Resíduos</Leavings>
+        <NumLeavings>0000000</NumLeavings>
+        <Negotiations>Negociações</Negotiations>
+        <NumNegotiations>0000000</NumNegotiations>
       </CardFoot>
     </View>
   );
