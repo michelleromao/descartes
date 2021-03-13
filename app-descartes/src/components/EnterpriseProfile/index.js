@@ -1,30 +1,51 @@
 import React from 'react';
-import { View, Image } from 'react-native';
 
-import { Container, GraficaMonstro, Foot, Info, Icons } from './styles';
+import {
+  View, 
+  Card, 
+  CardFoot, 
+  Logo, 
+  LogoText, 
+  StampImage,
+  Address, 
+  AddressIcon,  
+  PhoneIcon, 
+  Phone,
+  EmailIcon,
+  Email,
+  Leavings,
+  NumLeavings,
+  Negotiations,
+  NumNegotiations,
+} from './styles';
 
 const EnterpriseProfile = () => {
 
   return (
-  <View>  
-    <Container>
-        <GraficaMonstro>Gráfica Monstro</GraficaMonstro>   
+    <View>
+      <Card>
+        <Logo source={require('../../assets/LogoMonster.png')} />
+        <LogoText>Gráfica Monstro</LogoText>
+        <StampImage source={require('../../assets/selo1.png')} />
+
+        <AddressIcon source={require('../../assets/gps.png')} />
+        <Address>Rua Tabelião Enéas, 678</Address>
+
+        <PhoneIcon source={require('../../assets/phone.png')} />
+        <Phone>(88)983162839</Phone>
+
+        <EmailIcon source={require('../../assets/mail.png')} />
+        <Email>diretoria@graficamonstro.com.br</Email>
         
+      </Card>
 
-        <Info>
-            <Icons>
-                <Image source={require('../../assets/gps.png')} />
-            </Icons>
-            Rua Tabelião Éneas, 678
-        </Info>
-
-        <Info>(88)983162839</Info>
-        <Info>diretoria@graficamonstro.com.br</Info>
-         
-    </Container>
-    <Foot>
-    </Foot>
-  </View>  
+      <CardFoot>
+        <Leavings>Resíduos</Leavings>
+        <NumLeavings>0000000</NumLeavings>
+        <Negotiations>Negociações</Negotiations>
+        <NumNegotiations>0000000</NumNegotiations>
+      </CardFoot>
+    </View>
   );
 };
 

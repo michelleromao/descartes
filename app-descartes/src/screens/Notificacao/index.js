@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 
 import Swipe from '../../components/Swipe';
 
+
 const data = {
   notifications: [
     {
