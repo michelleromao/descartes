@@ -74,7 +74,7 @@ const Drawer = () => {
           </TouchableOpacity>
         </Header>
         <Body>
-          {userType === 'artesao' && (
+          {userType === 'craftsman' && (
             <>
               <ButtonBody>
                 <Collections />
@@ -92,7 +92,7 @@ const Drawer = () => {
               </ButtonBody>
             </>
           )}
-          {userType === 'empresaDoadora' && (
+          {userType === 'donorCompany' && (
             <>
               <ButtonBody>
                 <Donations />

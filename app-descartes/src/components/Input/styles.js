@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex-direction: row;
   align-items: center;
-  width: 100%;
+  width: ${props => (props.size ? props.size : '100%')};
   height: 60px;
   border: 2px solid #d6692b;
   border-radius: 15px;

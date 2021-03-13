@@ -3,7 +3,7 @@ import { useField } from '@unform/core';
 
 import { Container, TextInput, Label } from './styles';
 
-const Input = ({ name, label, ...rest }) => {
+const Input = ({ name, label, size, ...rest }) => {
   const inputRef = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
@@ -30,7 +30,7 @@ const Input = ({ name, label, ...rest }) => {
     });
   }, [fieldName, registerField]);
   return (
-    <Container>
+    <Container size={size}>
       <Label>{label}</Label>
       <TextInput
         ref={inputRef}
