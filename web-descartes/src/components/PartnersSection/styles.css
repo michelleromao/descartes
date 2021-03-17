@@ -1,0 +1,48 @@
+.TamanhoCorpoParc {
+  height: 550px;
+  padding: 2% 10%;
+}
+.pagina3 {
+  width: 100%;
+  text-align: center;
+}
+.cards {
+  display: flex;
+  align-items: baseline;
+  text-align: left;
+  justify-content: space-between;
+}
+.fundo {
+  width: 300px;
+  height: 400px;
+  top: 1711px;
+  background: #352166;
+  border-radius: 10px;
+  border: none;
+}
+.cards a {
+  text-decoration: none;
+  color: #d6692b;
+  font-size: 13.5px;
+  margin-left: 230px;
+}
+.cards p {
+  color: white;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+.cards h3 {
+  color: #352166;
+  font-size: 15pt;
+  margin-top: 20px;
+  margin-bottom: -20px;
+}
+.titulo h1 {
+  font-size: 26pt;
+  color: #d6692b;
+}
+.cards img {
+  width: 100%;
+}
