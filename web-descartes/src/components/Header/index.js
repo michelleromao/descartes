@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashLink as Link } from 'react-router-hash-link';
+import { Link } from 'react-router-dom';
 
 import LogoDescartes from "../../assets/logo-descartes.png";
 import About from "../../assets/about-icon.svg";
