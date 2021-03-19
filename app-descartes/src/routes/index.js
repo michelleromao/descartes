@@ -8,6 +8,8 @@ import TabBarNavigation from './TabBarNavigation';
 import { AuthContext } from './context';
 
 import Drawer from '../components/Drawer';
+import FilterBy from '../components/FilterBy';
+
 
 import Login from '../screens/Login';
 import CCDados from '../screens/CriarConta/Dados';
@@ -61,6 +63,8 @@ const ModalNavigator = () => {
         options={{ headerShown: false }}
       />
       <ModalStack.Screen name="Menu" component={Drawer} />
+      <ModalStack.Screen name="FilterBy" component={FilterBy} />
+
     </ModalStack.Navigator>
   );
 };

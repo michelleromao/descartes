@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
@@ -23,6 +23,7 @@ import {
 
 const Drawer = () => {
   const { signOut } = React.useContext(AuthContext);
+  const route = useRoute();
   const navigation = useNavigation();
   const [state, setState] = useState(false);
   const [userType, setUserType] = useState(null);
@@ -68,7 +69,7 @@ const Drawer = () => {
       )}
       <Container>
         <Header>
-          <TextHeader>Nome do usuário</TextHeader>
+          <TextHeader>{route.params.name}</TextHeader>
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Ionicons name="close" size={30} color="#352166" />
           </TouchableOpacity>

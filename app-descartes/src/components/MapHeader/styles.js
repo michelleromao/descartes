@@ -22,3 +22,4 @@ export const FilterButton = styled.TouchableOpacity`
   margin-left: 5%;
   margin-bottom: 5%;
 `;
+

@@ -1,20 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
+import {useNavigation, useRoute} from "@react-navigation/native";
+
 import { View, TouchableOpacity } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 
-import { Container, Form, FilterButton } from './styles';
+import { Container, Form, FilterButton} from './styles';
 
 import Search from '../Search';
 
 const MapHeader = ({ children }) => {
   const formRef = useRef(null);
+  const navigation = useNavigation();
 
   function handleSubmit(data) {
     console.log(data);
-    // { email: 'test@example.com', password: '123456' }
   }
 
   return (
+    <>
     <Container>
       {children}
       <Form ref={formRef} onSubmit={handleSubmit}>
@@ -26,10 +29,11 @@ const MapHeader = ({ children }) => {
           </Search>
         </View>
       </Form>
-      <FilterButton onPress={() => formRef.current.submitForm()}>
+      <FilterButton onPress={() => navigation.navigate('FilterBy')}>
         <Feather name="filter" size={30} color="#352166" />
       </FilterButton>
     </Container>
+    </>
   );
 };
 

@@ -12,7 +12,7 @@ export const View = styled.View`
       : shade(0.2, '#F1F1F1')};
   border-radius: 15px;
   width: ${props => (props.size ? props.size : '100%')};
-  margin-bottom: 20px;
+  margin-bottom:  ${props => (props.mBottom ? props.mBottom : '20px')};
   margin-top: 10px;
 `;
 
@@ -22,6 +22,8 @@ export const Container = styled.TouchableOpacity`
   width: 100%;
   height: 60px;
   background: ${props =>
+  props.disabled ?
+        shade(0.2, '#BCB6CC') :
     props.color === 'orange'
       ? '#D6692B'
       : props.color === 'purple'
