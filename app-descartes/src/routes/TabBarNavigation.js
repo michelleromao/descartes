@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-
+import { firestore } from '../services/firebase';
 import { View, TouchableOpacity } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -78,7 +78,17 @@ const NotificationNavigation = () => {
 const Home = createStackNavigator();
 const HomeNavigation = () => {
   const navigation = useNavigation();
+  const [userDetails, setUserDetails] = useState(null);
 
+  const getUserDetails = useCallback(async () => {
+    const response = await AsyncStorage.getItem('@storage_uid');
+    const usershot = await firestore.collection("users").get();
+    usershot.forEach(doc => {
+      if(doc.data().id === response){
+        setUserDetails({name: doc.data().name})
+      }
+    })
+  }, []);
   const [userType, setUserType] = useState(null);
   const getUserType = useCallback(async () => {
     const response = await AsyncStorage.getItem('@storage_Key');
@@ -87,7 +97,8 @@ const HomeNavigation = () => {
 
   useEffect(() => {
     getUserType();
-  }, [getUserType]);
+    getUserDetails();
+  }, [getUserType, getUserDetails]);
 
   return (
     <Home.Navigator
@@ -115,7 +126,7 @@ const HomeNavigation = () => {
               return (
                 <TouchableOpacity
                   style={{ marginLeft: 25 }}
-                  onPress={() => navigation.navigate('Menu')}
+                  onPress={() => navigation.navigate('Menu', {name: userDetails.name})}
                 >
                   <Feather name="menu" size={30} color="#352166" />
                 </TouchableOpacity>
