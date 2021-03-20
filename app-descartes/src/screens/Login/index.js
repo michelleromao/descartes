@@ -24,7 +24,7 @@ const Login = ({ navigation }) => {
     if (data.email && data.password) {
       setLoading(true);
       auth
-        .signInWithEmailAndPassword('monstro@gmail.com', '123456')
+        .signInWithEmailAndPassword(data.email, data.password)
         .then(userLogged => {
           setUidUser(userLogged.user.uid);
         })
