@@ -1,28 +1,36 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused, useRoute } from '@react-navigation/native';
 
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 import { firestore } from '../../services/firebase';
+import { useSelector, useDispatch } from 'react-redux';
+import { setFilter } from "../../store/actions/filter";
 
 import Button from '../../components/Button';
 import Selos from '../../components/Seals';
 
 import MapHeader from '../../components/MapHeader';
 import Pin from '../../../assets/pin.png';
+import Pin2 from '../../../assets/pin2.png';
 import { MenuButton, CallToAdd, TextCallToAdd } from './styles';
 import Carousel from '../../components/Carousel';
 
 const Home = () => {
+  const { filter } = useSelector(state => state.filter);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const [latLong, setLatLong] = useState();
-
+  const [latLongCompanies, setLatLongCompanies] = useState([]);
   const [userType, setUserType] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
+  const [typeId, setTypeId] = useState();
+
 
   const getUserType = useCallback(async () => {
     const response = await AsyncStorage.getItem('@storage_Key');
@@ -32,9 +40,38 @@ const Home = () => {
   const getUserDetails = useCallback(async () => {
     const response = await AsyncStorage.getItem('@storage_uid');
     const snapshot = await firestore.collection('addresses').get();
+    const usershot = await firestore.collection("users").get();
+    var donorArr = [];
+    usershot.forEach(doc => {
+      if(doc.data().id === response){
+        setUserDetails({name: doc.data().name.split(" ")[0]})
+      }else{
+        if(doc.data().type_user === 'donorCompany'){
+          donorArr.push(doc.data().id);
+        }
+      }
+    })
+    Promise.all(donorArr.map(async (item) => {
+     const addressCompany = firestore.collection('addresses').doc(item);
+     const doc = await addressCompany.get();
+     if(doc.exists){
+       return doc.data()
+     }
+    })).then(resp => {
+      var arrResp = [];
+      resp.forEach((item) => {
+        arrResp.push({
+          id: item.id_user,
+          lat: item.lat,
+          lon: item.lon
+        });
+      });
+      setLatLongCompanies(arrResp);
+    }).catch(err => {
+      console.log(err)
+    });
     snapshot.forEach(doc => {
       if (doc.data().id_user === response) {
-        console.log('lat ', doc.data().lat, ' lon ', doc.data().lon);
         setLatLong({
           lat: doc.data().lat,
           lon: doc.data().lon,
@@ -43,12 +80,54 @@ const Home = () => {
     });
   }, []);
 
+  const handleFilter = useCallback(async () => {
+    if(filter !== null && filter !== ''){
+
+        const materialShot = await firestore.collection('materials').get();
+        if(materialShot){
+          materialShot.forEach(doc => {
+            if(doc.data().type === filter){
+            setTypeId(doc.id);
+            }
+          });
+          var companies = [];
+          const residueShot = await firestore.collection('residues').get();
+          residueShot.forEach(doc => {
+            if(doc.data().id_material === typeId){
+              companies.push({id_company: doc.data().id_company, quantity: doc.data().quantity, size: doc.data().size});
+            }
+          });
+          if(companies.length !== 0){
+            var addresses = [];
+            const companyAddressShot = await firestore.collection('addresses').get();
+            companies.map((item) => {
+              companyAddressShot.forEach(doc => {
+                if(doc.data().id_user === item.id_company){
+                  addresses.push({id: doc.data().id_user, lat: doc.data().lat, lon: doc.data().lon, material: filter, size:item.size, quantity: item.quantity})
+                }
+            });
+          })
+          setLatLongCompanies(addresses);
+          dispatch(setFilter(''));
+          }else{
+            alert('Não há materiais registrados com esse tipo');
+            dispatch(setFilter(''));
+          }
+        }else{
+          dispatch(setFilter(''));
+        }
+    }
+  }, [dispatch, filter])
+
   useEffect(() => {
     getUserType();
     if (userType === 'craftsman') {
       getUserDetails();
     }
-  }, [getUserType, getUserDetails, userType]);
+    if(isFocused){
+      handleFilter()
+    }
+  }, [getUserType, getUserDetails, userType, isFocused, handleFilter]);
 
   return (
     <>
@@ -63,7 +142,7 @@ const Home = () => {
               }}
             >
               <MapHeader>
-                <MenuButton onPress={() => navigation.navigate('Menu')}>
+                <MenuButton onPress={() => navigation.navigate('Menu', {name: userDetails.name})}>
                   <Feather name="menu" size={30} color="#352166" />
                 </MenuButton>
               </MapHeader>
@@ -84,6 +163,21 @@ const Home = () => {
                   image={Pin}
                 />
               </Callout>
+              {latLongCompanies.length !== 0 ? latLongCompanies.map((item) => {
+                  return(
+                    <Marker
+                      key={item.id}
+                      coordinate={{ latitude: item.lat, longitude: item.lon }}
+                      image={Pin2}
+                  >
+                     <Callout style={styles.plainView} >
+                      <View >
+                        <Text style={styles.textTooltip}>Papel</Text>
+                      </View>
+                    </Callout>
+                  </Marker>
+                  )
+                }) : false}
             </MapView>
           </View>
         </>
@@ -128,6 +222,12 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  plainView: {
+    width: 60,
+  },
+  textTooltip:{
+    fontWeight: 'bold'
+  }
 });
 
 export default Home;

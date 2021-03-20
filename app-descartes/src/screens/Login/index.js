@@ -24,7 +24,7 @@ const Login = ({ navigation }) => {
     if (data.email && data.password) {
       setLoading(true);
       auth
-        .signInWithEmailAndPassword(data.email, data.password)
+        .signInWithEmailAndPassword('michelle.nunes10@gmail.com', '123456')
         .then(userLogged => {
           setUidUser(userLogged.user.uid);
         })
@@ -46,7 +46,6 @@ const Login = ({ navigation }) => {
         const snapshot = await firestore.collection('users').get();
         snapshot.forEach(doc => {
           if (doc.data().id === uidUser) {
-            console.log(doc.data().type_user);
             AsyncStorage.setItem('@storage_Key', doc.data().type_user);
             AsyncStorage.setItem('@storage_uid', uidUser);
             signIn();
