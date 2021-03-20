@@ -1,7 +1,8 @@
 import React, { useState,useEffect, useCallback } from 'react';
 import { firestore } from '../../services/firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setFilter } from "../../store/actions/filter";
+import { ScrollView, View } from 'react-native';
 import { useNavigation, useIsFocused} from "@react-navigation/native";
 import { AntDesign, Entypo } from '@expo/vector-icons';
 
@@ -11,6 +12,7 @@ import ItemFilter from '../ItemFilter';
 
 
 const FilterBy = () => {
+  const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const navigation = useNavigation();
   const [types, setTypes] = useState();
@@ -51,8 +53,9 @@ const FilterBy = () => {
   }, [type]);
 
   const handleFilter = useCallback(() => {
+    dispatch(setFilter(type));
     navigation.navigate("Home");
-  },[]);
+  },[dispatch, type]);
 
   return (
     <>
@@ -78,7 +81,9 @@ const FilterBy = () => {
                 {showTypes ?
                     types && types.map((item) => {
                       return(
-                        <ItemFilter key={item.id} item={item.type} clickType={() => handleType(item.type)} selected={type === item.type ? true : false}/>
+                        <View key={item.id}>
+                          <ItemFilter key={item.id} item={item.type} clickType={() => handleType(item.type)} selected={type === item.type ? true : false}/>
+                        </View>
                       )
                     })
                   : false}

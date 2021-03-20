@@ -8,6 +8,8 @@ import { View, StyleSheet, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 import { firestore } from '../../services/firebase';
+import { useSelector, useDispatch } from 'react-redux';
+import { setFilter } from "../../store/actions/filter";
 
 import Button from '../../components/Button';
 import Selos from '../../components/Seals';
@@ -19,9 +21,10 @@ import { MenuButton, CallToAdd, TextCallToAdd } from './styles';
 import Carousel from '../../components/Carousel';
 
 const Home = () => {
+  const { filter } = useSelector(state => state.filter);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
-  const routes = useRoute();
   const [latLong, setLatLong] = useState();
   const [latLongCompanies, setLatLongCompanies] = useState([]);
   const [userType, setUserType] = useState(null);
@@ -78,13 +81,12 @@ const Home = () => {
   }, []);
 
   const handleFilter = useCallback(async () => {
-    const res = await AsyncStorage.getItem('@storage_Material');
-    console.log('inicio', res)
-      if(res){
+    if(filter !== null && filter !== ''){
+
         const materialShot = await firestore.collection('materials').get();
         if(materialShot){
           materialShot.forEach(doc => {
-            if(doc.data().type === res){
+            if(doc.data().type === filter){
             setTypeId(doc.id);
             }
           });
@@ -95,21 +97,27 @@ const Home = () => {
               companies.push({id_company: doc.data().id_company, quantity: doc.data().quantity, size: doc.data().size});
             }
           });
-          var addresses = [];
-          const companyAddressShot = await firestore.collection('addresses').get();
-          companies.map((item) => {
-            companyAddressShot.forEach(doc => {
-              if(doc.data().id_user === item.id_company){
-                addresses.push({id: doc.data().id_user, lat: doc.data().lat, lon: doc.data().lon, material: res, size:item.size, quantity: item.quantity})
-              }
+          if(companies.length !== 0){
+            var addresses = [];
+            const companyAddressShot = await firestore.collection('addresses').get();
+            companies.map((item) => {
+              companyAddressShot.forEach(doc => {
+                if(doc.data().id_user === item.id_company){
+                  addresses.push({id: doc.data().id_user, lat: doc.data().lat, lon: doc.data().lon, material: filter, size:item.size, quantity: item.quantity})
+                }
             });
           })
+          setLatLongCompanies(addresses);
+          dispatch(setFilter(''));
+          }else{
+            alert('Não há materiais registrados com esse tipo');
+            dispatch(setFilter(''));
+          }
         }else{
-          alert('Não há materiais registrados com esse tipo');
+          dispatch(setFilter(''));
         }
     }
-
-  }, [])
+  }, [dispatch, filter])
 
   useEffect(() => {
     getUserType();
