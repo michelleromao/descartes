@@ -19,6 +19,7 @@ import Pin from '../../../assets/pin.png';
 import Pin2 from '../../../assets/pin2.png';
 import { MenuButton, CallToAdd, TextCallToAdd } from './styles';
 import Carousel from '../../components/Carousel';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Home = () => {
   const { filter } = useSelector(state => state.filter);
@@ -41,35 +42,11 @@ const Home = () => {
     const response = await AsyncStorage.getItem('@storage_uid');
     const snapshot = await firestore.collection('addresses').get();
     const usershot = await firestore.collection("users").get();
-    var donorArr = [];
     usershot.forEach(doc => {
       if(doc.data().id === response){
         setUserDetails({name: doc.data().name.split(" ")[0]})
-      }else{
-        if(doc.data().type_user === 'donorCompany'){
-          donorArr.push(doc.data().id);
-        }
       }
     })
-    Promise.all(donorArr.map(async (item) => {
-     const addressCompany = firestore.collection('addresses').doc(item);
-     const doc = await addressCompany.get();
-     if(doc.exists){
-       return doc.data()
-     }
-    })).then(resp => {
-      var arrResp = [];
-      resp.forEach((item) => {
-        arrResp.push({
-          id: item.id_user,
-          lat: item.lat,
-          lon: item.lon
-        });
-      });
-      setLatLongCompanies(arrResp);
-    }).catch(err => {
-      console.log(err)
-    });
     snapshot.forEach(doc => {
       if (doc.data().id_user === response) {
         setLatLong({
@@ -82,31 +59,48 @@ const Home = () => {
 
   const handleFilter = useCallback(async () => {
     if(filter !== null && filter !== ''){
-
+      var typeIdStr;
         const materialShot = await firestore.collection('materials').get();
         if(materialShot){
           materialShot.forEach(doc => {
             if(doc.data().type === filter){
+            typeIdStr=doc.id;
             setTypeId(doc.id);
             }
           });
           var companies = [];
           const residueShot = await firestore.collection('residues').get();
           residueShot.forEach(doc => {
-            if(doc.data().id_material === typeId){
+            if(doc.data().id_material === typeIdStr){
               companies.push({id_company: doc.data().id_company, quantity: doc.data().quantity, size: doc.data().size});
             }
           });
           if(companies.length !== 0){
             var addresses = [];
+            var quantity = [];
+            companies.forEach(item => {
+              var company = item.id_company
+              if(item.id_company === company){
+                if(item.quantity){
+                  quantity.push(item.quantity)
+                }else{
+                  quantity.push(item.size)
+                }
+              }
+            })
             const companyAddressShot = await firestore.collection('addresses').get();
-            companies.map((item) => {
+            companies.forEach((item) => {
               companyAddressShot.forEach(doc => {
                 if(doc.data().id_user === item.id_company){
-                  addresses.push({id: doc.data().id_user, lat: doc.data().lat, lon: doc.data().lon, material: filter, size:item.size, quantity: item.quantity})
+                  addresses.push({id: doc.data().id_user, lat: doc.data().lat, lon: doc.data().lon, material: filter, quantity: quantity})
                 }
             });
           })
+          addresses = addresses.filter((address, index, self) =>
+          index === self.findIndex((t) => (
+            t.lat === address.lat && t.id === address.id
+          ))
+        )
           setLatLongCompanies(addresses);
           dispatch(setFilter(''));
           }else{
@@ -169,12 +163,20 @@ const Home = () => {
                       key={item.id}
                       coordinate={{ latitude: item.lat, longitude: item.lon }}
                       image={Pin2}
-                  >
-                     <Callout style={styles.plainView} >
-                      <View >
-                        <Text style={styles.textTooltip}>Papel</Text>
+                      >
+                     <MapView.Callout tootlip>
+                      <View>
+                        <Text style={styles.textTooltip}>{item.material}</Text>
+                        <ScrollView horizontal>
+                          {item.quantity.map((i) =>
+                          <View style={{borderWidth: 1, borderColor: 'black', padding: 1, borderRadius: 2, marginRight: 5}}>
+                            <Text style={{fontSize: 10}}>{i}</Text>
+                          </View>
+                          )}
+                        </ScrollView>
+
                       </View>
-                    </Callout>
+                    </MapView.Callout>
                   </Marker>
                   )
                 }) : false}
@@ -206,7 +208,6 @@ const Home = () => {
           </View>
         </>
       )}
-
       <StatusBar style="dark" />
     </>
   );
@@ -223,11 +224,13 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   plainView: {
-    width: 60,
+    width: 500,
+    height: 50
   },
   textTooltip:{
-    fontWeight: 'bold'
-  }
+    fontWeight: '500'
+  },
+
 });
 
 export default Home;
