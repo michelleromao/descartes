@@ -77,7 +77,7 @@ const Drawer = () => {
         <Body>
           {userType === 'craftsman' && (
             <>
-              <ButtonBody>
+              <ButtonBody onPress={() => navigation.navigate("Collections")}>
                 <Collections />
                 <TextBody>Minhas coletas</TextBody>
               </ButtonBody>

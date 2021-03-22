@@ -31,44 +31,57 @@ const Residue = ({id, screen, material, quantity, disponibility, status, craftsm
           </TouchableOpacity>
           : false
         }
-        <Content screen={screen} status={status}>
-          <Title>
-            <TitleText>{material}</TitleText>
-            <Subtitle>{quantity}</Subtitle>
-          </Title>
-          <Row>
-            <Subtitle>{disponibility}</Subtitle>
-          </Row>
-          {screen === 'mydonations' &&
-            status !== 'avaliable' &&
-            <DonationTo status={status}>
-              <DonationText status={status}>
-                {status === 'requested' && 'Solicitado por ' }
-                {status === 'reserved' && 'Reservado para ' }
-                {status === 'donated' && 'Doado para ' }
-                {craftsman}</DonationText>
-            </DonationTo>
-          }
-        </Content>
-        <Icons>
-          {status === 'donated' ? false :
+        {screen === 'collections' ?
+          <Content screen={screen} status={status}>
+            <Title>
+              <TitleText>{material}</TitleText>
+              <Subtitle>{quantity}</Subtitle>
+            </Title>
+            <Row>
+              <Subtitle>{disponibility}</Subtitle>
+            </Row>
+          </Content>
+          :
           <>
-            {status === 'reserved' ?
-              <TouchableOpacity onPress={() => navigation.navigate("ModalResidue", {type: 'back', id_residue: id})}>
-                <BackIcon />
-              </TouchableOpacity>
-              : <TouchableOpacity>
-                <EditIcon />
-              </TouchableOpacity>
-            }
-            <TouchableOpacity onPress={() => navigation.navigate("ModalResidue", {type: 'delete', id_residue: id})}>
-              <DeleteIcon width={25} height={29}/>
-            </TouchableOpacity>
-          </>
-          }
-        </Icons>
+            <Content screen={screen} status={status}>
+              <Title>
+                <TitleText>{material}</TitleText>
+                <Subtitle>{quantity}</Subtitle>
+              </Title>
+              <Row>
+                <Subtitle>{disponibility}</Subtitle>
+              </Row>
+              {screen === 'mydonations' &&
+                status !== 'avaliable' &&
+                <DonationTo status={status}>
+                  <DonationText status={status}>
+                    {status === 'requested' && 'Solicitado por ' }
+                    {status === 'reserved' && 'Reservado para ' }
+                    {status === 'donated' && 'Doado para ' }
+                    {craftsman}</DonationText>
+                </DonationTo>
+              }
+            </Content>
+            <Icons>
+              {status === 'donated' ? false :
+              <>
+                {status === 'reserved' ?
+                  <TouchableOpacity onPress={() => navigation.navigate("ModalResidue", {type: 'back', id_residue: id})}>
+                    <BackIcon />
+                  </TouchableOpacity>
+                  : <TouchableOpacity>
+                    <EditIcon />
+                  </TouchableOpacity>
+                }
+                <TouchableOpacity onPress={() => navigation.navigate("ModalResidue", {type: 'delete', id_residue: id})}>
+                  <DeleteIcon width={25} height={29}/>
+                </TouchableOpacity>
+              </>
+              }
+            </Icons>
+        </>
+      }
       </Row>
-
     </Container>
   )
 }
