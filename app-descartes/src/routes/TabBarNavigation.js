@@ -14,6 +14,7 @@ import Inicio from '../screens/Inicio';
 import Favoritos from '../screens/Favoritos';
 import Marketplace from '../screens/Marketplace';
 
+
 import {
   AccountIcon,
   Favorite,
@@ -135,6 +136,7 @@ const HomeNavigation = () => {
           },
         }}
       />
+
     </Home.Navigator>
   );
 };

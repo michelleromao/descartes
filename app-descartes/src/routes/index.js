@@ -9,6 +9,8 @@ import { AuthContext } from './context';
 
 import Drawer from '../components/Drawer';
 import FilterBy from '../components/FilterBy';
+import ResidueModals from '../components/ResidueModals';
+import Donation from '../screens/Donation';
 
 
 import Login from '../screens/Login';
@@ -28,6 +30,26 @@ const RootNavigator = () => {
       initialRouteName="Root"
     >
       <Stack.Screen name="Root" component={TabBarNavigation} />
+      <Stack.Screen name="Donations" component={Donation} options={{
+          headerTitle: 'Minhas doações',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#6CB9AA',
+          },
+          headerTintColor: '#352166',
+          headerTitleAlign: 'center',
+          headerTitleAllowFontScaling: true,
+          headerTitleStyle: { fontWeight: '600' },
+          cardStyle: { backgroundColor: '#F1F1F1' },
+          headerBackTitle: 'Voltar',
+          headerBackTitleVisible: true,
+          headerBackTitleStyle: { fontSize: 15 },
+          headerPressColorAndroid: 'transparent',
+          headerBackImage: () => (
+            <Entypo name="chevron-left" size={20} color="#352166" />
+          ),
+      }}/>
+
     </Stack.Navigator>
   );
 };
@@ -64,7 +86,7 @@ const ModalNavigator = () => {
       />
       <ModalStack.Screen name="Menu" component={Drawer} />
       <ModalStack.Screen name="FilterBy" component={FilterBy} />
-
+      <ModalStack.Screen name="ModalResidue" component={ResidueModals} />
     </ModalStack.Navigator>
   );
 };

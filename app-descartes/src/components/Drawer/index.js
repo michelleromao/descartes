@@ -95,7 +95,7 @@ const Drawer = () => {
           )}
           {userType === 'donorCompany' && (
             <>
-              <ButtonBody>
+              <ButtonBody onPress={() => navigation.navigate("Donations")}>
                 <Donations />
                 <TextBody>Minhas doações</TextBody>
               </ButtonBody>
