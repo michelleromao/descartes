@@ -244,18 +244,25 @@ const Home = () => {
             </View>
             {
               residues &&
-              residues.map(item =>
+              <>
                 <ScrollView style={{width:'100%', marginTop: 10}}>
-                  <Residue
-                    disponibility={item.disponibility}
-                    material={item.material}
-                    quantity={item.quantity}
-                    status={item.status}
-                    screen={"home"}
-                    key={item.id}
-                    />
+                  {residues.map(item =>{
+                    if(item.status !== 'donated'){
+                      return (
+                          <Residue
+                            disponibility={item.disponibility}
+                            material={item.material}
+                            quantity={item.quantity}
+                            status={item.status}
+                            screen={"home"}
+                            key={item.id}
+                            id={item.id}
+                          />
+                        )}
+                      }
+                  )}
                 </ScrollView>
-              )
+            </>
             }
             <CallToAdd>
               {residues.length !== 0 ? false : <TextCallToAdd>Sem resíduos adicionados</TextCallToAdd>}

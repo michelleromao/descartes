@@ -21,10 +21,10 @@ const Login = ({ navigation }) => {
   const formRef = useRef(null);
 
   const handleSubmit = useCallback(data => {
-    //if (data.email && data.password) {
+    if (data.email && data.password) {
       setLoading(true);
       auth
-        .signInWithEmailAndPassword('monstro@gmail.com', '123456')
+        .signInWithEmailAndPassword(data.email, data.password)
         .then(userLogged => {
           setUidUser(userLogged.user.uid);
         })
@@ -35,9 +35,9 @@ const Login = ({ navigation }) => {
           console.log(errorCode, errorMessage);
           alert('A senha ou o e-mail estão errado');
         });
-    //} else {
-   //   alert('Campo email e/ou senha vazio');
-    //}
+    } else {
+      alert('Campo email e/ou senha vazio');
+    }
   }, []);
 
   useEffect(() => {

@@ -1,5 +1,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
+import update from 'immutability-helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { firestore } from '../../services/firebase';
 import { View } from 'react-native';
 
@@ -10,6 +12,7 @@ import { Container, Btn, ButtonText, TitleSection } from './styles';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const Donation = () => {
+  const isFocused = useIsFocused();
   const [index, setIndex] = useState(1);
   const [residues, setResidues] = useState([]);
   const [checkeds1, setCheckeds1] = useState([]);
@@ -86,29 +89,6 @@ const Donation = () => {
     setIndex(3);
   }, []);
 
-  const handleChecked1 = useCallback((item) => {
-    setCheckeds1([...checkeds1, item]);
-  }, [checkeds1]);
-
-  const handleChecked2 = useCallback((item) => {
-    if(checkeds2.length !== 0){
-      var arr = [...checkeds2];
-      var ind = arr.findIndex((value, index) => {
-        if(value === item){
-          return true;
-        }else{
-          return false
-        }
-      });
-      if(ind !== -1){
-        arr.splice(ind,1);
-      }
-      setCheckeds2(arr);
-    }else{
-      setCheckeds2([item]);
-    }
-  }, [checkeds2]);
-
   const handleReserve = useCallback(() => {
     Promise.all(checkeds1.map((item) => {
       const docUpdate = firestore.collection('residues').doc(item);
@@ -136,9 +116,10 @@ const Donation = () => {
   },[residues, checkeds2, getResidues]);
 
   useEffect(() => {
-    console.log(checkeds1)
-    getResidues();
-  }, [getResidues, checkeds1]);
+    if(isFocused){
+      getResidues();
+    }
+  }, [getResidues, isFocused]);
   return (
     <>
       <Container>
@@ -164,13 +145,23 @@ const Donation = () => {
                     <>
                       <Residue
                         key={item.id}
+                        id={item.id}
                         disponibility={item.disponibility}
                         material={item.material}
                         quantity={item.quantity}
                         screen={'mydonations'}
                         status={item.status}
                         craftsman={item.craftsman}
-                        onChecked={() => handleChecked1(item.id)}/>
+                        onChecked={() => setCheckeds1((prevState) =>
+                          {
+                            if(prevState.indexOf(item.id) !== -1){
+                              return(update(prevState, {$splice: [[prevState.indexOf(item.id), 1]]}))
+                            }else{
+                              return([...prevState, item.id])
+                            }
+                          }
+                        )}
+                        />
                     </>
                   )
               }})
@@ -199,7 +190,17 @@ const Donation = () => {
                         screen={'mydonations'}
                         status={item.status}
                         craftsman={item.craftsman}
-                        onChecked={() => handleChecked2(item.id)}/>
+                        id={item.id}
+                        onChecked={() => setCheckeds2((prevState) =>
+                          {
+                            if(prevState.indexOf(item.id) !== -1){
+                              return(update(prevState, {$splice: [[prevState.indexOf(item.id), 1]]}))
+                            }else{
+                              return([...prevState, item.id])
+                            }
+                          }
+                        )}
+                      />
                     </>
                   )
               }})
@@ -212,22 +213,24 @@ const Donation = () => {
         </>
       }
       {index === 3 &&
-        residues && residues.map(item => {
-          if(item.status === 'donated'){
-            return (
-              <ScrollView>
-                <Residue
-                key={item.id}
-                disponibility={item.disponibility}
-                material={item.material}
-                quantity={item.quantity}
-                screen={'mydonations'}
-                status={item.status}
-                craftsman={item.craftsman}
-                />
-              </ScrollView>
-            )
-        }})
+        <>
+          <ScrollView>
+            {residues && residues.map(item => {
+              if(item.status === 'donated'){
+                return (
+                    <Residue
+                    key={item.id}
+                    disponibility={item.disponibility}
+                    material={item.material}
+                    quantity={item.quantity}
+                    screen={'mydonations'}
+                    status={item.status}
+                    craftsman={item.craftsman}
+                    />
+                )
+            }})}
+          </ScrollView>
+        </>
       }
     </>
   )

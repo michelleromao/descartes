@@ -9,6 +9,7 @@ import { AuthContext } from './context';
 
 import Drawer from '../components/Drawer';
 import FilterBy from '../components/FilterBy';
+import ResidueModals from '../components/ResidueModals';
 import Donation from '../screens/Donation';
 
 
@@ -85,6 +86,7 @@ const ModalNavigator = () => {
       />
       <ModalStack.Screen name="Menu" component={Drawer} />
       <ModalStack.Screen name="FilterBy" component={FilterBy} />
+      <ModalStack.Screen name="ModalResidue" component={ResidueModals} />
     </ModalStack.Navigator>
   );
 };

@@ -1,18 +1,19 @@
 import React, {useState, useCallback} from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
 import { EditIcon, DeleteIcon, BackIcon, CheckIcon, CheckedIcon } from "../Icon"
 import { Container, Content, Row, Title, TitleText, Subtitle, Icons, DonationTo, DonationText, ReservedText } from './styles';
 
 const Residue = ({id, screen, material, quantity, disponibility, status, craftsman, onChecked}) => {
+  const navigation = useNavigation();
   const [checked, setChecked] = useState(false);
-
   const handleCheck = useCallback(() => {
     if(checked === false){
       setChecked(true);
-      onChecked(id);
+      onChecked([id]);
     }else{
       setChecked(false);
-      onChecked(id);
+      onChecked([id]);
     }
   },[checked]);
 
@@ -53,14 +54,14 @@ const Residue = ({id, screen, material, quantity, disponibility, status, craftsm
           {status === 'donated' ? false :
           <>
             {status === 'reserved' ?
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("ModalResidue", {type: 'back', id_residue: id})}>
                 <BackIcon />
               </TouchableOpacity>
               : <TouchableOpacity>
                 <EditIcon />
               </TouchableOpacity>
             }
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("ModalResidue", {type: 'delete', id_residue: id})}>
               <DeleteIcon width={25} height={29}/>
             </TouchableOpacity>
           </>
