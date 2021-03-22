@@ -1,4 +1,6 @@
 import React from "react";
+import { firestore } from "../../services/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Slider } from "@miblanchard/react-native-slider";
 import { Entypo } from '@expo/vector-icons';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
@@ -15,7 +17,29 @@ class Selos extends React.Component {
   state = {
     value: 1,
     seals: false,
+    negotiations: 0,
+    added: 0,
   };
+
+  async loadResidues(){
+    const response = await AsyncStorage.getItem('@storage_uid');
+    const snapshot = await firestore.collection('residues').get();
+    var countAdded = 0;
+    var countNegotiations = 0;
+    snapshot.forEach((doc) => {
+      if(doc.data().id_company === response){
+        countAdded = countAdded + 1;
+      }
+      if(doc.data().statusAnnounce === 'donated'){
+        countNegotiations = countNegotiations + 1;
+      }
+    });
+    this.setState({negotiations: countAdded, added: countAdded});
+  }
+
+  componentDidUpdate(){
+    this.loadResidues()
+  }
 
   render() {
     return (
@@ -52,12 +76,12 @@ class Selos extends React.Component {
           <CardFoot>
           <Collumn2>
             <Leavings>Resíduos cadastrados</Leavings>
-            <NumLeavings>0000000</NumLeavings>
+            <NumLeavings>{this.state.added}</NumLeavings>
           </Collumn2>
           <Divider />
           <Collumn2>
             <Negotiations>Negociações realizadas</Negotiations>
-            <NumNegotiations>0000000</NumNegotiations>
+            <NumNegotiations>{this.state.negotiations}</NumNegotiations>
           </Collumn2>
         </CardFoot>
         : false}

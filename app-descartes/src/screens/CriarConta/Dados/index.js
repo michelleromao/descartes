@@ -136,9 +136,9 @@ const Dados = () => {
           data.state === undefined ||
           data.state === '' ||
           data.email === undefined ||
+          data.email === '' ||
           data.cpf === '' ||
           data.cpf === undefined ||
-          data.email === '' ||
           data.name === undefined ||
           data.name === '' ||
           data.password === undefined ||
@@ -146,6 +146,20 @@ const Dados = () => {
           data.phone === undefined ||
           data.phone === ''
         ) {
+          console.log(
+            data,
+            data.street,
+            data.number,
+            data.neighborhood,
+            data.zipcode,
+            data.city,
+            data.state,
+            data.email,
+            data.cpf,
+            data.name,
+            data.password,
+            data.phone,
+          )
           Alert.alert(
             'Campo vazio',
             'Você esqueceu de preencher algum dado, por favor, verifique.',
@@ -163,7 +177,24 @@ const Dados = () => {
             .catch(error => {
               const errorCode = error.code;
               const errorMessage = error.message;
-              alert('Não foi possível criar conta, tente novamente');
+              console.log(errorCode, errorMessage);
+              if(errorCode === 'auth/weak-password'){
+                Alert.alert(
+                  'Senha fraca',
+                  'A senha deve ter, pelo menos, 6 caracteres.',
+                  [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                  { cancelable: false },
+                );
+                setLoading(false);
+              }else if(errorCode === 'auth/email-already-in-use'){
+                Alert.alert(
+                  'E-mail já existe',
+                  'Esse email já está na nossa base de dados.',
+                  [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+                  { cancelable: false },
+                );
+                setLoading(false);
+              }
             });
         }
       }
@@ -288,21 +319,19 @@ const Dados = () => {
               {userType === 'PF' && (
                 <>
                   <Input name="name" type="text" label="Nome" required />
-                  <InputMask
-                    type="cpf"
+                  <Input
+                    type="text"
                     name="cpf"
                     keyboardType="numeric"
                     label="CPF"
                     required
                   />
-                  <InputMask
-                    type="cel-phone"
+                  <Input
                     name="phone"
                     keyboardType="numeric"
                     label="Telefone"
                     required
                   />
-
                   <Text style={{ color: '#d6692b', marginBottom: '2%' }}>
                     Endereço
                   </Text>
@@ -340,8 +369,7 @@ const Dados = () => {
                       required
                       size="48%"
                     />
-                    <InputMask
-                      type="zip-code"
+                    <Input
                       name="zipcode"
                       keyboardType="numeric"
                       label="CEP"
@@ -397,15 +425,14 @@ const Dados = () => {
               {userType === 'PJ' && (
                 <>
                   <Input name="name" type="text" label="Nome" required />
-                  <InputMask
+                  <Input
                     name="cnpj"
-                    type="cnpj"
+                    type="text"
                     label="CNPJ"
                     keyboardType="number-pad"
                     required
                   />
-                  <InputMask
-                    type="cel-phone"
+                  <Input
                     name="phone"
                     keyboardType="numeric"
                     label="Telefone"
@@ -448,8 +475,7 @@ const Dados = () => {
                       required
                       size="48%"
                     />
-                    <InputMask
-                      type="zip-code"
+                    <Input
                       name="zipcode"
                       keyboardType="numeric"
                       label="CEP"

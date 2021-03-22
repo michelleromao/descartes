@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import 'firebase/auth';
 
-import { View, ScrollView, ActivityIndicator } from 'react-native';
+import { View, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { Form } from '@unform/mobile';
 import { auth, firestore } from '../../services/firebase';
 import { AuthContext } from '../../routes/context';
@@ -33,10 +33,37 @@ const Login = ({ navigation }) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           console.log(errorCode, errorMessage);
-          alert('A senha ou o e-mail estão errado');
+          if(errorCode === "auth/wrong-password"){
+            Alert.alert(
+              'Ops!',
+              'A senha está incorreta.',
+              [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+              { cancelable: false },
+            );
+          }else if(errorCode === "auth/user-not-found"){
+            Alert.alert(
+              'Ops!',
+              'Esse e-mail não existe na base de dados, por favor, cadastre-se.',
+              [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+              { cancelable: false },
+            );
+          }
+        else if(errorCode === "auth/invalid-email"){
+          Alert.alert(
+            'Ops!',
+            'Esse e-mail não é válido.',
+            [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+            { cancelable: false },
+          );
+        }
         });
     } else {
-      alert('Campo email e/ou senha vazio');
+      Alert.alert(
+        'Ops!',
+        'Campo email e/ou senha vazio.',
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+        { cancelable: false },
+      );
     }
   }, []);
 
@@ -87,16 +114,13 @@ const Login = ({ navigation }) => {
           <Logo source={LogoDescartes} />
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input name="email" type="email" label="E-mail" />
-            <ForgotButton>
-              <ForgotText>Esqueci o e-mail</ForgotText>
-            </ForgotButton>
             <Input
               name="password"
               type="password"
               label="Senha"
               secureTextEntry
             />
-            <ForgotButton>
+            <ForgotButton onPress={() => navigation.navigate('Forgot')}>
               <ForgotText>Esqueci a senha</ForgotText>
             </ForgotButton>
           </Form>
