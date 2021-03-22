@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, ScrollView, Dimensions, Text, StyleSheet } from 'react-native';
 import Flag from "../../assets/flag.png";
 const {width} = Dimensions.get("window");
-const height = width * 0.35;
+const height = width * 0.30;
 const images = [
     'http://cdls.org.br/wp-content/uploads/cdlce_base/2018/11/Banner-Site-CDL-Ensino-800x300.png',
     'http://vikingsbr.com/wp-content/uploads/2017/06/BANNER-SITE-SOBREMESAS.png',

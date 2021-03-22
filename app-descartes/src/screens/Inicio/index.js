@@ -13,6 +13,7 @@ import { setFilter } from "../../store/actions/filter";
 
 import Button from '../../components/Button';
 import Selos from '../../components/Seals';
+import Residue from '../../components/Residue';
 
 import MapHeader from '../../components/MapHeader';
 import Pin from '../../../assets/pin.png';
@@ -31,11 +32,54 @@ const Home = () => {
   const [userType, setUserType] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const [typeId, setTypeId] = useState();
+  const [residues, setResidues] = useState([]);
+
 
 
   const getUserType = useCallback(async () => {
     const response = await AsyncStorage.getItem('@storage_Key');
     setUserType(response);
+  }, []);
+
+  const getResidues = useCallback(async() => {
+    const response = await AsyncStorage.getItem('@storage_uid');
+    const residueShot = await firestore.collection('residues').get();
+    const userShot = await firestore.collection('users').get();
+    const materialShot = await firestore.collection('materials').get();
+    var residueArr = [];
+    residueShot.forEach(doc => {
+      if(doc.data().id_company === response){
+        residueArr.push({
+          id: doc.id,
+          disponibility: doc.data().disponibility,
+          id_company: doc.data().id_company,
+          id_craftsman: doc.data().id_craftsman,
+          id_material: doc.data().id_material,
+          quantity: doc.data().quantity ? doc.data().quantity : doc.data().size,
+          status: doc.data().statusAnnounce === 'avaliable' ? 'avaliable' :
+          doc.data().statusResidue === 'requested' ? 'requested' :
+          doc.data().statusAnnounce === 'reserved' ? 'reserved' :
+          doc.data().statusAnnounce === 'donated' ? 'donated' : '',
+        });
+      }
+    });
+    materialShot.forEach(doc => {
+      residueArr.forEach((residue, i) => {
+        if(doc.id === residue.id_material){
+          residueArr[i] = {
+            id: residue.id,
+            disponibility: residue.disponibility,
+            id_company: residue.id_company,
+            id_craftsman: residue.id_craftsman,
+            id_material: residue.id_material,
+            material: doc.data().type,
+            quantity: residue.quantity,
+            status: residue.status
+          }
+        }
+      })
+    });
+    setResidues(residueArr);
   }, []);
 
   const getUserDetails = useCallback(async () => {
@@ -117,11 +161,13 @@ const Home = () => {
     getUserType();
     if (userType === 'craftsman') {
       getUserDetails();
+    }else if(userType === 'donorCompany'){
+      getResidues();
     }
     if(isFocused){
       handleFilter()
     }
-  }, [getUserType, getUserDetails, userType, isFocused, handleFilter]);
+  }, [getUserType, getUserDetails, userType, isFocused, handleFilter, getResidues]);
 
   return (
     <>
@@ -190,16 +236,29 @@ const Home = () => {
             style={{
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginLeft: 25,
-              marginRight: 25,
               flex: 1,
             }}
           >
-            <View style={{ marginTop: 30, marginLeft: 20, marginRight: 20 }}>
+            <View style={{ marginTop: 15, marginLeft: 20, marginRight: 20 }}>
               <Selos />
             </View>
+            {
+              residues &&
+              residues.map(item =>
+                <ScrollView style={{width:'100%', marginTop: 10}}>
+                  <Residue
+                    disponibility={item.disponibility}
+                    material={item.material}
+                    quantity={item.quantity}
+                    status={item.status}
+                    screen={"home"}
+                    key={item.id}
+                    />
+                </ScrollView>
+              )
+            }
             <CallToAdd>
-              <TextCallToAdd>Sem resíduos adicionados</TextCallToAdd>
+              {residues.length !== 0 ? false : <TextCallToAdd>Sem resíduos adicionados</TextCallToAdd>}
               <Button color="orange" title="adicionar agora" />
             </CallToAdd>
             <View>
