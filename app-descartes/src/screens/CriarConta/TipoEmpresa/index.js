@@ -67,10 +67,26 @@ const TipoEmpresa = () => {
           setUser(data);
         })
         .catch(error => {
-          setLoading(false);
           const errorCode = error.code;
           const errorMessage = error.message;
-          alert('Não foi possível criar conta, tente novamente');
+          console.log(errorCode, errorMessage);
+          if(errorCode === 'auth/weak-password'){
+            Alert.alert(
+              'Senha fraca',
+              'A senha deve ter, pelo menos, 6 caracteres.',
+              [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+              { cancelable: false },
+            );
+            setLoading(false);
+          }else if(errorCode === 'auth/email-already-in-use'){
+            Alert.alert(
+              'E-mail já existe',
+              'Esse email já está na nossa base de dados.',
+              [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+              { cancelable: false },
+            );
+            setLoading(false);
+          }
         });
     }
   }, [route, checked]);

@@ -4,7 +4,7 @@ import { useNavigation, useIsFocused, useRoute } from '@react-navigation/native'
 
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 import { firestore } from '../../services/firebase';
@@ -148,7 +148,12 @@ const Home = () => {
           setLatLongCompanies(addresses);
           dispatch(setFilter(''));
           }else{
-            alert('Não há materiais registrados com esse tipo');
+            Alert.alert(
+              'Não encontrado',
+              'Não há materiais registrados com esse tipo.',
+              [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+              { cancelable: false },
+            );
             dispatch(setFilter(''));
           }
         }else{

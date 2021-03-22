@@ -17,6 +17,7 @@ import Login from '../screens/Login';
 import CCDados from '../screens/CriarConta/Dados';
 import CCTipoEmpresa from '../screens/CriarConta/TipoEmpresa';
 import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
+import ForgotPassword from '../screens/ForgotPassword';
 
 const Stack = createStackNavigator();
 const ModalStack = createStackNavigator();
@@ -143,6 +144,13 @@ const AuthStack = () => {
         component={CCTipoEmpresa}
         options={{
           headerTitle: 'Criar conta',
+        }}
+      />
+      <Stack.Screen
+        name="Forgot"
+        component={ForgotPassword}
+        options={{
+          headerTitle: 'Esqueci a senha',
         }}
       />
     </Stack.Navigator>
