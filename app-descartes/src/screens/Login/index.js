@@ -21,10 +21,10 @@ const Login = ({ navigation }) => {
   const formRef = useRef(null);
 
   const handleSubmit = useCallback(data => {
-    if (data.email && data.password) {
+    //if (data.email && data.password) {
       setLoading(true);
       auth
-        .signInWithEmailAndPassword(data.email, data.password)
+        .signInWithEmailAndPassword('michelle.nunes10@gmail.com', '123456')
         .then(userLogged => {
           setUidUser(userLogged.user.uid);
         })
@@ -57,14 +57,14 @@ const Login = ({ navigation }) => {
           );
         }
         });
-    } else {
+   /*} else {
       Alert.alert(
         'Ops!',
         'Campo email e/ou senha vazio.',
         [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
         { cancelable: false },
       );
-    }
+    }*/
   }, []);
 
   useEffect(() => {
