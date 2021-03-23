@@ -22,6 +22,7 @@ const data = {
   ],
 };
 
+
 const Favoritos = () => {
   const [index, setIndex] = useState(1);
 

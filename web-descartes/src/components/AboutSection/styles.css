@@ -1,0 +1,65 @@
+.TamanhoCorpoSobre {
+  height: 600px;
+  width: 100%;
+  padding: 2% 10%;
+  margin-top: -8%;
+}
+
+.sobre {
+  display: flex;
+  justify-content: space-between;
+  color: #d6692b;
+  font-size: 13.5px;
+  align-items: center;
+}
+.sobre-titulo {
+  text-align: center;
+  color: #d6692b;
+  margin-bottom: 5%;
+}
+.sobre p {
+  color: #d6692b;
+  font-size: 16px;
+  width: 85%;
+}
+.h2-azul {
+  color: #352166;
+}
+.confira {
+  font-size: 25px;
+}
+.acompanhe {
+  font-size: 18px;
+}
+.sobre h4 {
+  color: #352166;
+  margin-top: 5%;
+}
+.texto-sobre {
+  margin-right: 20px;
+}
+.texto-sobre img {
+  width: 40px;
+  margin-right: 5px;
+}
+.texto-sobre a {
+  color: #d6692b;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  flex-flow: row;
+  margin-right: 10%;
+}
+.redes {
+  display: flex;
+  align-items: center;
+  flex-flow: row;
+}
+
+.video {
+  height: auto;
+  width: auto;
+}
+.video-content {
+  width: 600px;
+}

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { firestore } from "../../services/firebase";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Ionicons } from '@expo/vector-icons';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 
 import { RowFront, RowFrontVisible, RowBack, Title, Details } from './styles';
 
@@ -10,7 +11,7 @@ import User from '../../assets/usercompany.png';
 
 import { Map } from '../Icon';
 
-const Swipe = ({ list, color, type }) => {
+const Swipe = ({ list, color, type, onDelete }) => {
   const [listData, setListData] = useState(
     type === 'notifications'
       ? list.notifications.map((item, index) => ({
@@ -25,6 +26,20 @@ const Swipe = ({ list, color, type }) => {
           details: item.details,
           selo: item.selo,
         }))
+      : type === 'collection' ?
+        list.requested.map((item, index) => ({
+          key: `${index}`,
+          id: item.id,
+          disponibility: item.disponibility,
+          id_company: item.id_company,
+          company: item.company,
+          id_craftsman: item.id_craftsman,
+          id_material: item.id_material,
+          material: item.material,
+          quantity: item.quantity,
+          statusAnnounce: item.statusAnnounce,
+          statusResidue: item.statusResidue,
+        }))
       : list.residue.map((item, index) => ({
           key: `${index}`,
           title: item.title,
@@ -36,12 +51,29 @@ const Swipe = ({ list, color, type }) => {
       rowMap[rowKey].closeRow();
     }
   };
-  const deleteRow = (rowMap, rowKey) => {
+  const deleteRow = async (rowMap, rowKey) => {
     closeRow(rowMap, rowKey);
     const newData = [...listData];
     const prevIndex = listData.findIndex(item => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
+    if(type === 'collection'){
+      Alert.alert(
+        'Reserva cancelada!',
+        'Você cancelou a reserva do resíduo para você. Ele já está disponível novamente para reserva para outras pessoas.',
+        [{ text: 'OK', onPress: () => console.log("ok") }],
+      );
+      const docUpdate = await firestore.collection('residues').doc(newData[prevIndex].id);
+      const ref = await docUpdate.update({
+        id_craftsman: "",
+        statusAnnounce: "avaliable",
+        statusResidue: "",
+      });
+      newData.splice(prevIndex, 1);
+      setListData(newData);
+    }else{
+      newData.splice(prevIndex, 1);
+      setListData(newData);
+    }
+
   };
 
   const VisibleItem = props => {
@@ -73,6 +105,15 @@ const Swipe = ({ list, color, type }) => {
               )}
               {type === 'favoriteResidue' && (
                 <Title numberOfLines={1}>{data.item.title}</Title>
+              )}
+              {type === 'collection' && (
+                <View>
+                   <Title numberOfLines={1}>{data.item.material}</Title>
+                   <Details>
+                    {data.item.company} - {data.item.quantity}
+                   </Details>
+
+                </View>
               )}
             </View>
             <Image source={ArrowSwipe} />

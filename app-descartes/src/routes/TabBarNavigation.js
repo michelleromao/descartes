@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-
+import { firestore } from '../services/firebase';
 import { View, TouchableOpacity } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,10 +14,12 @@ import Inicio from '../screens/Inicio';
 import Favoritos from '../screens/Favoritos';
 import Marketplace from '../screens/Marketplace';
 
+
 import {
   AccountIcon,
   Favorite,
   Map,
+  House,
   MarketplaceIcon,
   NotificationIcon,
 } from '../components/Icon';
@@ -77,7 +79,17 @@ const NotificationNavigation = () => {
 const Home = createStackNavigator();
 const HomeNavigation = () => {
   const navigation = useNavigation();
+  const [userDetails, setUserDetails] = useState(null);
 
+  const getUserDetails = useCallback(async () => {
+    const response = await AsyncStorage.getItem('@storage_uid');
+    const usershot = await firestore.collection("users").get();
+    usershot.forEach(doc => {
+      if(doc.data().id === response){
+        setUserDetails({name: doc.data().name})
+      }
+    })
+  }, []);
   const [userType, setUserType] = useState(null);
   const getUserType = useCallback(async () => {
     const response = await AsyncStorage.getItem('@storage_Key');
@@ -86,7 +98,8 @@ const HomeNavigation = () => {
 
   useEffect(() => {
     getUserType();
-  }, [getUserType]);
+    getUserDetails();
+  }, [getUserType, getUserDetails]);
 
   return (
     <Home.Navigator
@@ -101,7 +114,7 @@ const HomeNavigation = () => {
         headerBackTitle: 'Voltar',
         headerBackTitleVisible: true,
         headerBackTitleStyle: { fontSize: 15 },
-        headerShown: userType !== 'artesao',
+        headerShown: userType !== 'craftsman',
       }}
     >
       <Home.Screen
@@ -110,11 +123,11 @@ const HomeNavigation = () => {
         options={{
           headerTitle: 'Início',
           headerLeft: () => {
-            if (userType === 'empresaDoadora') {
+            if (userType === 'donorCompany') {
               return (
                 <TouchableOpacity
                   style={{ marginLeft: 25 }}
-                  onPress={() => navigation.navigate('Menu')}
+                  onPress={() => navigation.navigate('Menu', {name: userDetails.name})}
                 >
                   <Feather name="menu" size={30} color="#352166" />
                 </TouchableOpacity>
@@ -123,6 +136,7 @@ const HomeNavigation = () => {
           },
         }}
       />
+
     </Home.Navigator>
   );
 };
@@ -181,6 +195,16 @@ const MarketplaceStackNavigation = () => {
 
 const BottomTab = createBottomTabNavigator();
 const BottomTabNavigation = () => {
+  const [userType, setUserType] = useState(null);
+  const getUserType = useCallback(async () => {
+    const response = await AsyncStorage.getItem('@storage_Key');
+    setUserType(response);
+  }, []);
+
+  useEffect(() => {
+    getUserType();
+  }, [getUserType]);
+
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -209,9 +233,16 @@ const BottomTabNavigation = () => {
             );
           }
           if (route.name === 'Home') {
+            if (userType === 'craftsman') {
+              return (
+                <View style={focused ? { opacity: 1 } : { opacity: 0.5 }}>
+                  <Map width={30} height={37} />
+                </View>
+              );
+            }
             return (
               <View style={focused ? { opacity: 1 } : { opacity: 0.5 }}>
-                <Map width={30} height={37} />
+                <House width={30} height={37} />
               </View>
             );
           }
@@ -232,21 +263,38 @@ const BottomTabNavigation = () => {
         },
       })}
     >
-      <BottomTab.Screen
-        name="Account"
-        component={MyAccountTabNavigation}
-        initial={false}
-      />
-      <BottomTab.Screen
-        name="Notification"
-        component={NotificationNavigation}
-      />
-      <BottomTab.Screen name="Home" component={HomeNavigation} />
-      <BottomTab.Screen name="Favorite" component={FavoritesNavigation} />
-      <BottomTab.Screen
-        name="Marketplace"
-        component={MarketplaceStackNavigation}
-      />
+      {userType === 'donorCompany' ? (
+        <>
+          <BottomTab.Screen
+            name="Account"
+            component={MyAccountTabNavigation}
+            initial={false}
+          />
+          <BottomTab.Screen name="Home" component={HomeNavigation} />
+          <BottomTab.Screen
+            name="Notification"
+            component={NotificationNavigation}
+          />
+        </>
+      ) : (
+        <>
+          <BottomTab.Screen
+            name="Account"
+            component={MyAccountTabNavigation}
+            initial={false}
+          />
+          <BottomTab.Screen
+            name="Notification"
+            component={NotificationNavigation}
+          />
+          <BottomTab.Screen name="Home" component={HomeNavigation} />
+          <BottomTab.Screen name="Favorite" component={FavoritesNavigation} />
+          <BottomTab.Screen
+            name="Marketplace"
+            component={MarketplaceStackNavigation}
+          />
+        </>
+      )}
     </BottomTab.Navigator>
   );
 };

@@ -1,7 +1,10 @@
 import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const AddMaterial = () => {
-  return <></>;
+  return 
+  <View>
+  </View>;
 };
 
 export default AddMaterial;
