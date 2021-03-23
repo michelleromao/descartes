@@ -251,6 +251,7 @@ export const MarketplaceIcon = () => {
   );
 };
 
+
 export const DeleteIcon = ({width, height}) => {
   return (
     <Svg
@@ -269,6 +270,24 @@ export const DeleteIcon = ({width, height}) => {
     </Svg>
   );
 };
+
+export const SaveIcon = () => {
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={25}
+      height={25}
+      fill="none"
+      viewBox="0 0 27 27"
+    >
+      <Path
+        fill="#352166"
+        d="M21 0H3a3 3 0 00-3 3v21a3 3 0 003 3h21a3 3 0 003-3V6l-6-6zm-7.5 24A4.504 4.504 0 019 19.5c0-2.483 2.018-4.5 4.5-4.5s4.5 2.017 4.5 4.5-2.018 4.5-4.5 4.5zM18 9H3V3h15v6z"
+      ></Path>
+    </Svg>
+  );
+};
+
 export const EditIcon = () => {
   return (
     <Svg
