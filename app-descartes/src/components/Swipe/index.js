@@ -7,7 +7,6 @@ import { View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { RowFront, RowFrontVisible, RowBack, Title, Details } from './styles';
 
 import ArrowSwipe from '../../assets/swipe.png';
-import User from '../../assets/usercompany.png';
 
 import { Map } from '../Icon';
 
@@ -22,9 +21,12 @@ const Swipe = ({ list, color, type, onDelete }) => {
       : type === 'favoriteCompany'
       ? list.company.map((item, index) => ({
           key: `${index}`,
-          title: item.title,
-          details: item.details,
-          selo: item.selo,
+          doc_id: item.doc_id,
+          id: item.id,
+          name: item.name,
+          street: item.street,
+          number: item.number,
+          photo: item.photo
         }))
       : type === 'collection' ?
         list.requested.map((item, index) => ({
@@ -69,6 +71,15 @@ const Swipe = ({ list, color, type, onDelete }) => {
       });
       newData.splice(prevIndex, 1);
       setListData(newData);
+    }else if(type === "favoriteCompany") {
+      Alert.alert(
+        'Empresa removida!',
+        'Você removeu a empresa dos seus favoritos.',
+        [{ text: 'OK', onPress: () => console.log("ok") }],
+      );
+      const docUpdate = await firestore.collection('favorites').doc(newData[prevIndex].doc_id).delete();
+      newData.splice(prevIndex, 1);
+      setListData(newData);
     }else{
       newData.splice(prevIndex, 1);
       setListData(newData);
@@ -90,14 +101,16 @@ const Swipe = ({ list, color, type, onDelete }) => {
                 </Title>
               )}
               {type === 'favoriteCompany' && (
-                <View style={{ flexDirection: 'row' }}>
-                  <Image source={User} />
+                <View style={{ flexDirection: 'row'}}>
+                  <View style={{width: 50, height: 50}}>
+                   <Image style={{width: 45, height: 45, borderRadius: 100}} source={{uri: data.item.photo}} />
+                  </View>
                   <View style={{ marginLeft: '5%' }}>
-                    <Title numberOfLines={1}>{data.item.title}</Title>
+                    <Title numberOfLines={1}>{data.item.name}</Title>
                     <View style={{ flexDirection: 'row' }}>
                       <Map width={20} height={20} />
-                      <Details style={{ marginLeft: '3%' }}>
-                        {data.item.details}
+                      <Details style={{ marginLeft: '3%' }} numberOfLines={1}>
+                        {data.item.street}, {data.item.number}
                       </Details>
                     </View>
                   </View>

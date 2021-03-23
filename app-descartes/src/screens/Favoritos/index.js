@@ -1,9 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { firestore } from '../../services/firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Container, Button, ButtonText } from './styles';
 
 import Swipe from '../../components/Swipe';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const data = {
   company: [
@@ -14,17 +18,77 @@ const data = {
       selo: 'Amarelo',
     },
   ],
-  residue: [
-    {
-      id: 1,
-      title: 'Papel',
-    },
-  ],
+
 };
 
 
 const Favoritos = () => {
   const [index, setIndex] = useState(1);
+  const isFocused = useIsFocused();
+  const [favorites, setFavorites] = useState({company:[]});
+
+
+  const getFavorites = useCallback(async() => {
+    const response = await AsyncStorage.getItem('@storage_uid');
+    const favoriteShot = await firestore.collection('favorites').get();
+    const userShot = await firestore.collection('users').get();
+    const addressShot = await firestore.collection('addresses').get();
+    const photoShot = await firestore.collection('photo').get();
+    const residueShot = await firestore.collection('residues').get();
+
+    var favoriteArr = [];
+    favoriteShot.forEach(doc => {
+      if(doc.data().id_user === response){
+        favoriteArr.push({
+          doc_id: doc.id,
+          id_company: doc.data().id_company
+        })
+      }
+    })
+    userShot.forEach(doc => {
+      favoriteArr.forEach((favorite, i) => {
+        if(doc.id === favorite.id_company){
+          favoriteArr[i] = {
+            doc_id: favorite.doc_id,
+            id: doc.id,
+            name: doc.data().name,
+            id_photo: doc.data().id_photo,
+          }
+        }
+      })
+    })
+    addressShot.forEach(doc => {
+      favoriteArr.forEach((favorite, i) => {
+        if(doc.id === favorite.id){
+          favoriteArr[i] = {
+            doc_id: favorite.doc_id,
+            id: favorite.id,
+            name: favorite.name,
+            id_photo: favorite.id_photo,
+            street: doc.data().street,
+            number: doc.data().number
+          }
+        }
+      })
+    })
+    photoShot.forEach(doc => {
+      favoriteArr.forEach((favorite, i) => {
+        if(doc.id === favorite.id){
+          console.log(doc.id, doc.data().url);
+          favoriteArr[i] = {
+            doc_id: favorite.doc_id,
+            id: favorite.id,
+            name: favorite.name,
+            id_photo: favorite.id_photo,
+            street: favorite.street,
+            number: favorite.number,
+            photo: doc.data().url
+          }
+        }
+      })
+    })
+    setFavorites({company:favoriteArr});
+  }, []);
 
   const handleCompany = useCallback(() => {
     setIndex(1);
@@ -37,6 +101,12 @@ const Favoritos = () => {
   const handleAnnounce = useCallback(() => {
     setIndex(3);
   }, []);
+
+  useEffect(() => {
+    if(isFocused){
+      getFavorites();
+    }
+  }, [getFavorites, isFocused]);
 
   return (
     <>
@@ -54,48 +124,51 @@ const Favoritos = () => {
 
       {index === 1 && (
         <>
-          {data.company.length !== 0 ? (
-            <View style={{ width: '100%' }}>
-              <Swipe type="favoriteCompany" list={data} />
-            </View>
-          ) : (
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'center',
-                marginTop: 33,
-              }}
-            >
-              <Text style={{ color: '#D6692B' }}>
-                Você não possui empresas favoritadas
-              </Text>
-            </View>
-          )}
+          {favorites.company ?
+            <>
+              <ScrollView>
+                <Swipe type="favoriteCompany" list={favorites} />
+              </ScrollView>
+            </>
+            :
+            (
+              <View
+                style={{
+                  width: '100%',
+                  flex:1,
+                  alignItems: 'center',
+                  justifyContent: "center"
+                }}
+              >
+                <Text style={{ color: '#D6692B' }}>
+                  Você não possui empresas favoritadas
+                </Text>
+              </View>
+            )
+          }
         </>
       )}
       {index === 2 && (
-        <>
-          {data.residue.length !== 0 ? (
-            <View style={{ width: '100%' }}>
-              <Swipe type="favoriteResidue" list={data} />
-            </View>
-          ) : (
             <View
               style={{
                 width: '100%',
+                flex:1,
                 alignItems: 'center',
-                marginTop: 33,
+                justifyContent: "center"
               }}
             >
               <Text style={{ color: '#D6692B' }}>
                 Você não possui resíduos favoritados
               </Text>
             </View>
-          )}
-        </>
       )}
       {index === 3 && (
-        <View style={{ width: '100%', alignItems: 'center' }}>
+        <View style={{
+          width: '100%',
+          flex:1,
+          alignItems: 'center',
+          justifyContent: "center"
+        }}>
           <Text style={{ color: '#D6692B' }}>
             Você não possui anúncios favoritados
           </Text>

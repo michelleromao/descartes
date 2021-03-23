@@ -111,6 +111,7 @@ const Collections = () => {
       getResidues();
     }
   }, [getResidues, isFocused]);
+
   return (
     <>
       <Container>

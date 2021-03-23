@@ -64,42 +64,42 @@ const AddMaterial = () => {
       contentContainerStyle={{ flex: 1 }}
       keyboardShouldPersistTaps="handled"
     >
-            <View 
+            <View
       style={styles.container}
       >
         <Form>
-          <Input 
+          <Input
           name="Tipo"
           label="Tipo de Material"
           />
-          <Input 
+          <Input
           name="Qtd/Tam"
           label="Quantidade/Tamanho"
           />
-          <Input 
-          name="Disponibilidade" 
+          <Input
+          name="Disponibilidade"
           type=""
-          label="Disponibilidade" 
+          label="Disponibilidade"
           />
           </Form>
         </View>
 
-          {/*<Button 
+          {/*<Button
             title={<Feather name="plus" size={30} color="white" />}
             size="60px"
             color="green"
             //onPress={""}
             style={styles.botao}
           />*/}
-          
+
           <View style={styles.ViewBotoes}>
-            <Button 
+            <Button
             title="cadastrar"
             size="150px"
-            color="purple" 
+            color="purple"
             onPress={() => setState(false)}
             />
-            <Button 
+            <Button
             title="cancelar"
             size="150px"
             color="purple"
@@ -107,15 +107,15 @@ const AddMaterial = () => {
             />
             </View>
 
-          
-     
+
+
     </ScrollView>
 
 
     </>
 
       );
- 
+
 };
 
 export default AddMaterial;

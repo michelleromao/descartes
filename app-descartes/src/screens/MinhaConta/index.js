@@ -98,13 +98,13 @@ const MinhaConta = () => {
               style={{ alignItems: 'center' }}
               onPress={() => setState(true)}
             >
-              <DeleteIcon />
+              <DeleteIcon width={25} height={25}/>
               <Text style={{ marginTop: '20%', fontFamily: 'nunito-regular', color: '#352166' }}>Apagar</Text>
             </DeletButton>
           </View>
 
           <>
-            {userType === 'artesao' && (
+            {userType === 'craftsman' && (
               <>
                 <View style={{ alignItems: 'center' }}>
                   <TouchableOpacity
@@ -170,7 +170,7 @@ const MinhaConta = () => {
               </>
             )}
 
-            {userType === 'empresaDoadora' && (
+            {userType === 'donorCompany' && (
 
               <>
                 <View style={{ alignItems: 'center' }}>
