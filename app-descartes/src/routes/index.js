@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { SafeAreaView, View, ActivityIndicator, Text } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,11 +8,18 @@ import TabBarNavigation from './TabBarNavigation';
 import { AuthContext } from './context';
 
 import Drawer from '../components/Drawer';
+import FilterBy from '../components/FilterBy';
+import ResidueModals from '../components/ResidueModals';
+import Donation from '../screens/Donation';
+import Collections from '../screens/Collections';
+
+
 
 import Login from '../screens/Login';
 import CCDados from '../screens/CriarConta/Dados';
 import CCTipoEmpresa from '../screens/CriarConta/TipoEmpresa';
 import CCTipoUsuario from '../screens/CriarConta/TipoUsuario';
+import ForgotPassword from '../screens/ForgotPassword';
 
 const Stack = createStackNavigator();
 const ModalStack = createStackNavigator();
@@ -27,6 +33,45 @@ const RootNavigator = () => {
       initialRouteName="Root"
     >
       <Stack.Screen name="Root" component={TabBarNavigation} />
+      <Stack.Screen name="Donations" component={Donation} options={{
+          headerTitle: 'Minhas doações',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#6CB9AA',
+          },
+          headerTintColor: '#352166',
+          headerTitleAlign: 'center',
+          headerTitleAllowFontScaling: true,
+          headerTitleStyle: { fontWeight: '600' },
+          cardStyle: { backgroundColor: '#F1F1F1' },
+          headerBackTitle: 'Voltar',
+          headerBackTitleVisible: true,
+          headerBackTitleStyle: { fontSize: 15 },
+          headerPressColorAndroid: 'transparent',
+          headerBackImage: () => (
+            <Entypo name="chevron-left" size={20} color="#352166" />
+          ),
+      }}/>
+      <Stack.Screen name="Collections" component={Collections} options={{
+          headerTitle: 'Minhas coletas',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#6CB9AA',
+          },
+          headerTintColor: '#352166',
+          headerTitleAlign: 'center',
+          headerTitleAllowFontScaling: true,
+          headerTitleStyle: { fontWeight: '600' },
+          cardStyle: { backgroundColor: '#F1F1F1' },
+          headerBackTitle: 'Voltar',
+          headerBackTitleVisible: true,
+          headerBackTitleStyle: { fontSize: 15 },
+          headerPressColorAndroid: 'transparent',
+          headerBackImage: () => (
+            <Entypo name="chevron-left" size={20} color="#352166" />
+          ),
+      }}/>
+
     </Stack.Navigator>
   );
 };
@@ -62,6 +107,8 @@ const ModalNavigator = () => {
         options={{ headerShown: false }}
       />
       <ModalStack.Screen name="Menu" component={Drawer} />
+      <ModalStack.Screen name="FilterBy" component={FilterBy} />
+      <ModalStack.Screen name="ModalResidue" component={ResidueModals} />
     </ModalStack.Navigator>
   );
 };
@@ -120,6 +167,13 @@ const AuthStack = () => {
           headerTitle: 'Criar conta',
         }}
       />
+      <Stack.Screen
+        name="Forgot"
+        component={ForgotPassword}
+        options={{
+          headerTitle: 'Esqueci a senha',
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -133,7 +187,6 @@ const Routes = () => {
       signIn: () => {
         setIsLoading(false);
         setUserToken('------');
-        AsyncStorage.setItem('@storage_Key', 'empresaDoadora');
       },
       signUp: () => {
         setIsLoading(false);

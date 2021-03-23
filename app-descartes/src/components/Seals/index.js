@@ -1,12 +1,45 @@
 import React from "react";
+import { firestore } from "../../services/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Slider } from "@miblanchard/react-native-slider";
 import { Entypo } from '@expo/vector-icons';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
-
+import {
+  CardFoot,
+  Leavings,
+  NumLeavings,
+  Negotiations,
+  NumNegotiations,
+  Collumn2,
+  Divider
+} from './styles';
 class Selos extends React.Component {
   state = {
     value: 1,
+    seals: false,
+    negotiations: 0,
+    added: 0,
   };
+
+  async loadResidues(){
+    const response = await AsyncStorage.getItem('@storage_uid');
+    const snapshot = await firestore.collection('residues').get();
+    var countAdded = 0;
+    var countNegotiations = 0;
+    snapshot.forEach((doc) => {
+      if(doc.data().id_company === response){
+        countAdded = countAdded + 1;
+      }
+      if(doc.data().statusAnnounce === 'donated'){
+        countNegotiations = countNegotiations + 1;
+      }
+    });
+    this.setState({negotiations: countAdded, added: countAdded});
+  }
+
+  componentDidUpdate(){
+    this.loadResidues()
+  }
 
   render() {
     return (
@@ -39,9 +72,26 @@ class Selos extends React.Component {
             <Text style={[styles.texto, styles.t500]}>500</Text>
             <Text style={styles.texto}>1000</Text>
         </View>
+        {this.state.seals ?
+          <CardFoot>
+          <Collumn2>
+            <Leavings>Resíduos cadastrados</Leavings>
+            <NumLeavings>{this.state.added}</NumLeavings>
+          </Collumn2>
+          <Divider />
+          <Collumn2>
+            <Negotiations>Negociações realizadas</Negotiations>
+            <NumNegotiations>{this.state.negotiations}</NumNegotiations>
+          </Collumn2>
+        </CardFoot>
+        : false}
         <View style={{alignSelf: 'center', marginTop: 5}}>
           <TouchableOpacity >
-            <Entypo name="chevron-thin-down" size={24} color="white" />
+            {this.state.seals ?
+              <Entypo name="chevron-thin-up" size={24} color="white" onPress={() => this.setState({seals: false})}/>
+            :
+              <Entypo name="chevron-thin-down" size={24} color="white" onPress={() => this.setState({seals: true})}/>
+            }
           </TouchableOpacity>
         </View>
       </View>

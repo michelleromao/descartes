@@ -8,6 +8,9 @@ export const MenuButton = styled.TouchableOpacity`
 export const CallToAdd = styled.View`
   align-self: center;
   width: 100%;
+  margin-top: 15px;
+  padding-left: 25;
+  padding-right: 25;
 `;
 
 export const TextCallToAdd = styled.Text`
