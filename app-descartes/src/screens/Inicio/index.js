@@ -271,7 +271,7 @@ const Home = () => {
             }
             <CallToAdd>
               {residues.length !== 0 ? false : <TextCallToAdd>Sem resíduos adicionados</TextCallToAdd>}
-              <Button color="orange" title="adicionar agora" />
+              <Button color="orange" title="adicionar agora" onPress={() => navigation.navigate('AdcMaterial')} />
             </CallToAdd>
             <View>
               <Carousel />
