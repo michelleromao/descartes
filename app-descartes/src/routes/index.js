@@ -12,6 +12,8 @@ import FilterBy from '../components/FilterBy';
 import ResidueModals from '../components/ResidueModals';
 import Donation from '../screens/Donation';
 import Collections from '../screens/Collections';
+import AddMaterial from '../screens/Empresa/AddMaterial';
+import EditMaterial from '../screens/Empresa/EditMaterial';
 
 
 
@@ -70,8 +72,45 @@ const RootNavigator = () => {
           headerBackImage: () => (
             <Entypo name="chevron-left" size={20} color="#352166" />
           ),
-      }}/>
-
+        }}/>
+        <Stack.Screen name="AdcMaterial" component={AddMaterial} options={{
+          headerTitle: 'Adicionar Material',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#6CB9AA',
+          },
+          headerTintColor: '#352166',
+          headerTitleAlign: 'center',
+          headerTitleAllowFontScaling: true,
+          headerTitleStyle: { fontWeight: '600' },
+          cardStyle: { backgroundColor: '#F1F1F1' },
+          headerBackTitle: 'Voltar',
+          headerBackTitleVisible: true,
+          headerBackTitleStyle: { fontSize: 15 },
+          headerPressColorAndroid: 'transparent',
+          headerBackImage: () => (
+            <Entypo name="chevron-left" size={20} color="#352166" />
+          ),
+        }}/>
+        <Stack.Screen name="EditMaterial" component={EditMaterial} options={{
+          headerTitle: 'Editar Material',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#6CB9AA',
+          },
+          headerTintColor: '#352166',
+          headerTitleAlign: 'center',
+          headerTitleAllowFontScaling: true,
+          headerTitleStyle: { fontWeight: '600' },
+          cardStyle: { backgroundColor: '#F1F1F1' },
+          headerBackTitle: 'Voltar',
+          headerBackTitleVisible: true,
+          headerBackTitleStyle: { fontSize: 15 },
+          headerPressColorAndroid: 'transparent',
+          headerBackImage: () => (
+            <Entypo name="chevron-left" size={20} color="#352166" />
+          ),
+        }}/>
     </Stack.Navigator>
   );
 };

@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { firestore } from '../../services/firebase';
-import { Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 
 import Residue from "../../components/Residue";
 import Swipe from '../../components/Swipe';
@@ -15,9 +15,10 @@ const Collections = () => {
   const [index, setIndex] = useState(1);
   const [residues, setResidues] = useState({requested:[]});
   const [requested, setRequested] = useState({requested:[]});
-
+  const [loading, setLoading] = useState(false);
 
   const getResidues = useCallback(async() => {
+    setLoading(true);
     const response = await AsyncStorage.getItem('@storage_uid');
     const residueShot = await firestore.collection('residues').get();
     const userShot = await firestore.collection('users').get();
@@ -96,6 +97,7 @@ const Collections = () => {
     })
     setRequested({requested:requestedArr});
     setResidues({requested:residueArr});
+    setLoading(false);
   }, []);
 
   const handleRequested = useCallback(() => {
@@ -124,6 +126,19 @@ const Collections = () => {
       </Container>
 
       {index === 1 &&
+        loading ?
+          <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            padding: 10,
+          }}
+        >
+          <ActivityIndicator size="small" color="#352166" />
+        </View>
+        :
         requested.requested &&
           <ScrollView>
             <Swipe type="collection" list={requested} />
@@ -131,29 +146,42 @@ const Collections = () => {
       }
       {index === 2 &&
       <>
-        {residues.requested &&
-        <>
-          <ScrollView>
-            {
-              residues.requested.map(item => {
-                if(item.status === 'collected'){
-                  return (
-                    <>
-                      <Residue
-                        key={item.id}
-                        id={item.id}
-                        disponibility={item.disponibility}
-                        material={item.material}
-                        quantity={item.quantity}
-                        screen="collections"
-                        status={item.status}
-                      />
-                    </>
-                  )
-              }})
-            }
-          </ScrollView>
-          </>
+        {loading ?
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              padding: 10,
+            }}
+          >
+            <ActivityIndicator size="small" color="#352166" />
+          </View>
+        :
+          residues.requested &&
+          <>
+            <ScrollView>
+              {
+                residues.requested.map(item => {
+                  if(item.status === 'collected'){
+                    return (
+                      <>
+                        <Residue
+                          key={item.id}
+                          id={item.id}
+                          disponibility={item.disponibility}
+                          material={item.material}
+                          quantity={item.quantity}
+                          screen="collections"
+                          status={item.status}
+                        />
+                      </>
+                    )
+                }})
+              }
+              </ScrollView>
+            </>
         }
         </>
       }
