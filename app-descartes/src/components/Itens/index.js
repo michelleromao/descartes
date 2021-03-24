@@ -27,3 +27,26 @@ function Itens() {
 }
 
 export default Itens;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#F5FCFF',
+      width: '100%',
+      padding: 16,
+      paddingTop: 100,
+    },
+    wrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignContent: 'center',
+      paddingVertical: 15,
+    },
+    text: {
+      lineHeight: 30,
+      marginLeft: 10,
+      
+    },
+  });
