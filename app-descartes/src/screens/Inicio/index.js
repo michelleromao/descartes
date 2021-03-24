@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
-import { useNavigation, useIsFocused, useRoute } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';

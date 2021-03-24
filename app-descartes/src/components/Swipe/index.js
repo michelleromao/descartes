@@ -15,8 +15,9 @@ const Swipe = ({ list, color, type, onDelete }) => {
     type === 'notifications'
       ? list.notifications.map((item, index) => ({
           key: `${index}`,
-          title: item.title,
-          details: item.details,
+          doc_id: item.doc_id,
+          title: item.name,
+          details: ` ${item.text} ${item.type.split(" ")[2]}.`,
         }))
       : type === 'favoriteCompany'
       ? list.company.map((item, index) => ({
@@ -78,6 +79,15 @@ const Swipe = ({ list, color, type, onDelete }) => {
         [{ text: 'OK', onPress: () => console.log("ok") }],
       );
       const docUpdate = await firestore.collection('favorites').doc(newData[prevIndex].doc_id).delete();
+      newData.splice(prevIndex, 1);
+      setListData(newData);
+    }else if(type === "notifications"){
+      Alert.alert(
+        'Notificação removida!',
+        'Você removeu a notificação.',
+        [{ text: 'OK', onPress: () => console.log("ok") }],
+      );
+      const docUpdate = await firestore.collection('notifications').doc(newData[prevIndex].doc_id).delete();
       newData.splice(prevIndex, 1);
       setListData(newData);
     }else{

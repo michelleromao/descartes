@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //import { Feather } from '@expo/vector-icons';
 
-import styles from './styles';
+//import styles from './styles';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 
@@ -65,7 +65,6 @@ const AddMaterial = () => {
       keyboardShouldPersistTaps="handled"
     >
             <View
-      style={styles.container}
       >
         <Form>
           <Input
@@ -92,7 +91,7 @@ const AddMaterial = () => {
             style={styles.botao}
           />*/}
 
-          <View style={styles.ViewBotoes}>
+          <View >
             <Button
             title="cadastrar"
             size="150px"

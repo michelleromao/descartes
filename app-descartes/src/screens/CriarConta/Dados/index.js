@@ -212,7 +212,12 @@ const Dados = () => {
 
           const docRef = firestore.collection('users').doc(userUid);
           const addressRef = firestore.collection('addresses').doc(userUid);
-
+          const photoRef = firestore.collection('photos').doc(userUid);
+          let urlFirebase = "https://firebasestorage.googleapis.com/v0/b/descartespi4.appspot.com/o/Group%20216.png?alt=media&token=87fa4923-5bc8-4bd7-b116-ea3ad621e00a";
+          await photoRef.set({
+            id_user: userUid,
+            url: urlFirebase,
+          });
           await docRef.set({
             cnpj: '',
             cpf: user.cpf,
@@ -236,6 +241,7 @@ const Dados = () => {
             street: user.street,
             zipcode: user.zipcode,
           });
+
           AsyncStorage.setItem('@storage_Key', 'craftsman');
           AsyncStorage.setItem('@storage_uid', userUid);
 
