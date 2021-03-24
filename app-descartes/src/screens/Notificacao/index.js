@@ -41,7 +41,7 @@ const Notificacao = () => {
 
       var notificationArr = [];
       notificationShot.forEach(doc => {
-        if(doc.data().owner_id === response){
+        if(doc.data().id_owner === response){
           notificationArr.push({
             doc_id: doc.id,
             id_company: doc.data().id_company,

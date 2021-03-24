@@ -20,8 +20,11 @@ const Residue = ({id, screen, material, quantity, disponibility, status, craftsm
   return(
     <Container status={status} >
       {screen === 'home' &&
-       status==="reserved" &&
+       status==="reserved" ?
         <ReservedText>Reservado</ReservedText>
+        : screen === 'home' && status==='requested' ?
+        <ReservedText>Solicitado</ReservedText>
+        : false
       }
       <Row>
         {screen === 'home' ? false :

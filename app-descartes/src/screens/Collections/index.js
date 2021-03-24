@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { firestore } from '../../services/firebase';
-import { ActivityIndicator, Text } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
 
 import Residue from "../../components/Residue";
 import Swipe from '../../components/Swipe';
@@ -13,7 +13,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 const Collections = () => {
   const isFocused = useIsFocused();
   const [index, setIndex] = useState(1);
-  const [residues, setResidues] = useState({requested:[]});
+  const [residues, setResidues] = useState([]);
   const [requested, setRequested] = useState({requested:[]});
   const [loading, setLoading] = useState(false);
 
@@ -90,13 +90,20 @@ const Collections = () => {
       })
     })
     var requestedArr = [];
+    var collectedArr = [];
+
     residueArr.forEach((item) => {
       if(item.status === 'requested'){
         requestedArr.push(item);
       }
     })
+    residueArr.forEach((item) => {
+      if(item.status === 'collected'){
+        collectedArr.push(item);
+      }
+    })
     setRequested({requested:requestedArr});
-    setResidues({requested:residueArr});
+    setResidues(collectedArr);
     setLoading(false);
   }, []);
 
@@ -125,7 +132,7 @@ const Collections = () => {
         </Btn>
       </Container>
 
-      {index === 1 &&
+      {index === 1 ?
         loading ?
           <View
           style={{
@@ -143,48 +150,48 @@ const Collections = () => {
           <ScrollView>
             <Swipe type="collection" list={requested} />
           </ScrollView>
-      }
-      {index === 2 &&
-      <>
-        {loading ?
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              padding: 10,
-            }}
-          >
-            <ActivityIndicator size="small" color="#352166" />
-          </View>
-        :
-          residues.requested &&
-          <>
-            <ScrollView>
-              {
-                residues.requested.map(item => {
-                  if(item.status === 'collected'){
-                    return (
-                      <>
-                        <Residue
-                          key={item.id}
-                          id={item.id}
-                          disponibility={item.disponibility}
-                          material={item.material}
-                          quantity={item.quantity}
-                          screen="collections"
-                          status={item.status}
-                        />
-                      </>
-                    )
-                }})
-              }
-              </ScrollView>
-            </>
-        }
-        </>
-      }
+      : false}
+
+      {index === 2 ?
+        <>
+          {loading ?
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                padding: 10,
+              }}
+            >
+              <ActivityIndicator size="small" color="#352166" />
+            </View>
+          :
+            residues &&
+            <>
+              <ScrollView>
+                {
+                  residues.map(item => {
+                      return (
+                        <>
+                          <Residue
+                            key={item.id}
+                            id={item.id}
+                            disponibility={item.disponibility}
+                            material={item.material}
+                            quantity={item.quantity}
+                            screen="collections"
+                            status={item.status}
+                          />
+                        </>
+                      )
+                  })
+                }
+                </ScrollView>
+              </>
+          }
+          </>
+      : false}
     </>
   )
 }

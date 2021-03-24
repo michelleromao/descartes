@@ -25,7 +25,12 @@ import {
   Divider
 } from './styles';
 
-const EnterpriseProfile = () => {
+import Seal1 from "../../assets/seals/green.png"
+import Seal2 from "../../assets/seals/orange.png"
+import Seal3 from "../../assets/seals/yellow.png"
+
+
+const EnterpriseProfile = ({name, street, number, phone, email, donated, added, photo}) => {
 
   return (
     <View>
@@ -33,35 +38,42 @@ const EnterpriseProfile = () => {
         <Collumn>
           <Row>
             <Initial>
-              <Logo source={require('../../assets/LogoMonster.png')} />
-              <LogoText>Gráfica Monstro</LogoText>
+              <Logo source={{uri: photo}} />
+              <LogoText>{name}</LogoText>
             </Initial>
-            <StampImage source={require('../../assets/selo1.png')} />
+            {
+              donated < 100 ?
+                false
+              : donated >= 100 && donated < 500 ?
+                <StampImage source={Seal2} />
+              : donated >= 500 && donated < 100 ?
+                <StampImage source={Seal3} />
+              : <StampImage source={Seal1} />
+            }
           </Row>
           <Row2>
             <AddressIcon source={require('../../assets/gps.png')} />
-            <Address>Rua Tabelião Enéas, 678</Address>
+            <Address>{`${street}, ${number}`}</Address>
           </Row2>
           <Row2>
             <PhoneIcon source={require('../../assets/phone.png')} />
-            <Phone>(88)983162839</Phone>
+            <Phone>{phone}</Phone>
           </Row2>
           <Row2>
             <EmailIcon source={require('../../assets/mail.png')} />
-            <Email>diretoria@graficamonstro.com.br</Email>
+            <Email>{email}</Email>
           </Row2>
         </Collumn>
       </Card>
-
       <CardFoot>
         <Collumn2>
           <Leavings>Resíduos</Leavings>
-          <NumLeavings>0000000</NumLeavings>
+          <NumLeavings>{added}</NumLeavings>
         </Collumn2>
         <Divider />
         <Collumn2>
           <Negotiations>Negociações</Negotiations>
-          <NumNegotiations>0000000</NumNegotiations>
+          <NumNegotiations>{donated}</NumNegotiations>
         </Collumn2>
       </CardFoot>
     </View>

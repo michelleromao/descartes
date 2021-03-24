@@ -5,11 +5,11 @@ export const Container = styled.View`
   align-items: center;
   width: 100%;
   height: 60px;
-  border: 2px solid #352166;
+  border: 2px solid #35216685;
   border-radius: 15px;
   padding: 15px;
   margin-bottom: 20px;
-  background-color: #f1f1f1;
+  background-color: #DADADA;
 `;
 
 export const TextInput = styled.TextInput`
