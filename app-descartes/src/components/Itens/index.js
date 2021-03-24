@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
       display: 'flex',
-      justifyContent:'space-between',
+      justifyContent:'flex-start',
       flexDirection: 'row',
       alignContent: 'center',
       paddingVertical: 5,
