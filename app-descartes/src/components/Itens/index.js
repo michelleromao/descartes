@@ -21,7 +21,7 @@ function Itens() {
         />  
       </View>
 
-      <Text style={styles.text}>Papel - 100gr</Text>
+      <Text style={styles.text}>Papelão - 10kg</Text>
       <View style={styles.wrapper}>
         <CheckBox 
             disabled={false}
@@ -35,7 +35,7 @@ function Itens() {
         />  
       </View>
 
-      <Text style={styles.text}>Papel - 100gr</Text>
+      <Text style={styles.text}>Tecido - 100m</Text>
       <View style={styles.wrapper}>
         <CheckBox 
             disabled={false}
