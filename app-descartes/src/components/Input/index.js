@@ -5,7 +5,6 @@ import { Container, TextInput, Label } from './styles';
 const Input = ({ mask, maskType, name, label, size, ...rest }) => {
   const inputRef = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
-
   useEffect(() => {
     inputRef.current.value = defaultValue;
   }, [defaultValue]);
@@ -28,12 +27,13 @@ const Input = ({ mask, maskType, name, label, size, ...rest }) => {
       },
     });
   }, [fieldName, registerField]);
+
   return (
     <Container size={size}>
       <Label>{label}</Label>
       <TextInput
         ref={inputRef}
-        keyboardAppearance="light"
+        keyboardAppearance="dark"
         defaultValue={defaultValue}
         placeholderTextColor="#666360"
         onChangeText={value => {
@@ -42,7 +42,7 @@ const Input = ({ mask, maskType, name, label, size, ...rest }) => {
           }
         }}
         {...rest}
-      />
+    />
     </Container>
   );
 };

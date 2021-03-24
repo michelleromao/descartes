@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
-import { useNavigation, useIsFocused, useRoute } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, StyleSheet, Text, Alert } from 'react-native';
+import { View, StyleSheet, Text, Alert, ActivityIndicator } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 import { firestore } from '../../services/firebase';
@@ -33,7 +33,7 @@ const Home = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [typeId, setTypeId] = useState();
   const [residues, setResidues] = useState([]);
-
+  const [loading, setLoading] = useState(false);
 
 
   const getUserType = useCallback(async () => {
@@ -42,6 +42,7 @@ const Home = () => {
   }, []);
 
   const getResidues = useCallback(async() => {
+    setLoading(true);
     const response = await AsyncStorage.getItem('@storage_uid');
     const residueShot = await firestore.collection('residues').get();
     const userShot = await firestore.collection('users').get();
@@ -80,6 +81,7 @@ const Home = () => {
       })
     });
     setResidues(residueArr);
+    setLoading(false);
   }, []);
 
   const getUserDetails = useCallback(async () => {
@@ -247,7 +249,19 @@ const Home = () => {
             <View style={{ marginTop: 15, marginLeft: 20, marginRight: 20 }}>
               <Selos />
             </View>
-            {
+            {loading ?
+                <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  padding: 10,
+                }}
+              >
+                <ActivityIndicator size="small" color="#352166" />
+              </View>
+              :
               residues &&
               <>
                 <ScrollView style={{width:'100%', marginTop: 10}}>

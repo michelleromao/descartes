@@ -69,7 +69,7 @@ const Residue = ({id, screen, material, quantity, disponibility, status, craftsm
                   <TouchableOpacity onPress={() => navigation.navigate("ModalResidue", {type: 'back', id_residue: id})}>
                     <BackIcon />
                   </TouchableOpacity>
-                  : <TouchableOpacity>
+                  : <TouchableOpacity onPress={() => navigation.navigate("EditMaterial", {id: id, quantity: quantity, disponibility: disponibility, material: material })}>
                     <EditIcon />
                   </TouchableOpacity>
                 }

@@ -96,6 +96,7 @@ const TipoEmpresa = () => {
       if (userUid !== '') {
         const userRef = firestore.collection('users').doc(userUid);
         const addressRef = firestore.collection('addresses').doc(userUid);
+        const photoRef = firestore.collection('photos').doc(userUid);
 
         await userRef.set({
           cnpj: user.cnpj,
@@ -120,6 +121,11 @@ const TipoEmpresa = () => {
           state: user.state,
           street: user.street,
           zipcode: user.zipcode,
+        });
+        let urlFirebase = "https://firebasestorage.googleapis.com/v0/b/descartespi4.appspot.com/o/Group%20216.png?alt=media&token=87fa4923-5bc8-4bd7-b116-ea3ad621e00a";
+        await photoRef.set({
+          id_user: userUid,
+          url: urlFirebase,
         });
         AsyncStorage.setItem('@storage_Key', 'donorCompany');
         AsyncStorage.setItem('@storage_uid', userUid);

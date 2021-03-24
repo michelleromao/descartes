@@ -23,7 +23,6 @@ import {
   MarketplaceIcon,
   NotificationIcon,
 } from '../components/Icon';
-import AddMaterial from '../screens/Empresa/AddMaterial';
 
 const MyAccountStack = createStackNavigator();
 const MyAccountTabNavigation = () => {
@@ -136,13 +135,6 @@ const HomeNavigation = () => {
             }
           },
         }}
-      />
-      <Home.Screen
-       name="AdcMaterial"
-       component={AddMaterial}
-       options={{
-        headerTitle: 'Adicionar Material',
-      }}
       />
     </Home.Navigator>
   );

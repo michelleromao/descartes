@@ -3,11 +3,9 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { ScrollView, View, Text, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { firestore } from '../../../services/firebase';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Form } from '@unform/mobile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-//import { Feather } from '@expo/vector-icons';
 
 import styles from './styles';
 import Button from '../../../components/Button';
@@ -22,19 +20,20 @@ import {
   GroupButton,
 } from '../../../components/Drawer/styles';
 
-const AddMaterial = () => {
+const EditMaterial = () => {
   const formRef = useRef(null);
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
+  const routes = useRoute();
   const [state, setState] = useState(false);
   const [userType, setUserType] = useState(null);
   const [userUid, setUserUid] = useState(null);
   const [materials, setMaterials] = useState([]);
-  const [showDate, setShowDate] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [modeDate, setModeDate] = useState('date');
+  const [material, setMaterial] = useState(" ");
 
-  const [dateFormated, setDateFormated] = useState(" ");
+  const [showDate, setShowDate] = useState(false);
+  const [date, setDate] = useState(new Date(routes.params.disponibility.split("/")[2],Number(routes.params.disponibility.split("/")[1]-1),routes.params.disponibility.split("/")[0]));
+  const [modeDate, setModeDate] = useState('date');
+  const [dateFormated, setDateFormated] = useState(routes.params.disponibility);
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -66,6 +65,12 @@ const AddMaterial = () => {
       })
     })
     setMaterials(materialArr);
+    materialArr.forEach((item) => {
+      if(item.label === routes.params.material){
+        setMaterial(item.value);
+      }
+    })
+
   }, []);
 
   const handleCloseDrawer = useCallback(() => {
@@ -73,22 +78,20 @@ const AddMaterial = () => {
   }, []);
 
   const handleSubmit = useCallback(async (data) =>{
-    if(data.quantity !== "" &&
+    console.log(data);
+    if(routes.params.quantity !== "" &&
+      routes.params.quantity !== undefined ||
+      data.quantity !== "" &&
       data.quantity !== undefined &&
       data.type !== "" &&
       data.type !== undefined &&
       dateFormated !== " "){
-        const docRef = firestore.collection("residues").doc();
-        await docRef.set({
+        const docRef = firestore.collection("residues").doc(routes.params.id);
+        await docRef.update({
           disponibility: dateFormated,
-          id_company: userUid,
-          id_craftsman: "",
           id_material: data.type,
-          quantity: data.quantity,
-          statusAnnounce: "avaliable",
-          statusResidue: "",
+          quantity: data.quantity || routes.params.quantity,
         })
-        setLoading(true);
         navigation.goBack();
       }else{
         Alert.alert(
@@ -105,7 +108,7 @@ const AddMaterial = () => {
     getUserType();
     handleCloseDrawer();
     getMaterialTyps();
-  }, [getUserType, handleCloseDrawer, getMaterialTyps]);
+  }, [getUserType, handleCloseDrawer, getMaterialTyps, dateFormated]);
 
   return (
 
@@ -113,7 +116,7 @@ const AddMaterial = () => {
     {state ? (
         <BackgroundColor>
           <Modal>
-            <TextModal>Deseja cancelar cadastro?</TextModal>
+            <TextModal>Deseja cancelar a edição?</TextModal>
             <GroupButton>
               <Button
                 color="orange"
@@ -133,32 +136,20 @@ const AddMaterial = () => {
       ) : (
         false
     )}
-    {
-      loading ?
-        <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          padding: 10,
-        }}
+    <ScrollView
+      contentContainerStyle={{ flex: 1 }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <View
+      style={styles.container}
       >
-        <ActivityIndicator size="small" color="#352166" />
-      </View>
-      :
-      <ScrollView
-        contentContainerStyle={{ flex: 1 }}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View
-        style={styles.container}
-        >
+        {material !== " " ?
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <Picker label="Tipo de material" name="type" items={materials} />
+              <Picker label="Tipo de material" name="type" items={materials} value={material} />
             <Input
               name="quantity"
               label="Quantidade/Tamanho"
+              defaultValue={routes.params.quantity}
             />
             <TouchableOpacity style={styles.disponibility} onPress={() => showMode()}>
               <Text style={styles.disponibilityText}>Disponibilidade</Text>
@@ -178,28 +169,42 @@ const AddMaterial = () => {
             )}
 
           </Form>
-        </View>
+        :
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              padding: 10,
+            }}
+          >
+            <ActivityIndicator size="small" color="#352166" />
+          </View>
+        }
+      </View>
 
-        <View style={styles.ViewBotoes}>
+      <View style={styles.ViewBotoes}>
+      <Button
+          title="cancelar"
+          size="150px"
+          color="purple"
+          onPress={() => setState(true)}
+        />
         <Button
-            title="cancelar"
-            size="150px"
-            color="purple"
-            onPress={() => setState(true)}
-          />
-          <Button
-            title="cadastrar"
-            size="150px"
-            color="purple"
-            onPress={() => formRef.current.submitForm()}
-          />
-        </View>
-      </ScrollView>
-    }
+          title="editar"
+          size="150px"
+          color="purple"
+          onPress={() => formRef.current.submitForm()}
+        />
+      </View>
+    </ScrollView>
+
+
     </>
 
       );
 
 };
 
-export default AddMaterial;
+export default EditMaterial;

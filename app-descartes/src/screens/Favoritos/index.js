@@ -33,8 +33,7 @@ const Favoritos = () => {
     const favoriteShot = await firestore.collection('favorites').get();
     const userShot = await firestore.collection('users').get();
     const addressShot = await firestore.collection('addresses').get();
-    const photoShot = await firestore.collection('photo').get();
-    const residueShot = await firestore.collection('residues').get();
+    const photoShot = await firestore.collection('photos').get();
 
     var favoriteArr = [];
     favoriteShot.forEach(doc => {

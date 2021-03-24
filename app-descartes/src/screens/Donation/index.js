@@ -3,7 +3,7 @@ import update from 'immutability-helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { firestore } from '../../services/firebase';
-import { View } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 
 import Residue from "../../components/Residue";
 import Button from "../../components/Button";
@@ -17,9 +17,10 @@ const Donation = () => {
   const [residues, setResidues] = useState([]);
   const [checkeds1, setCheckeds1] = useState([]);
   const [checkeds2, setCheckeds2] = useState([]);
-
+  const [loading, setLoading] = useState(false);
 
   const getResidues = useCallback(async() => {
+    setLoading(true)
     const response = await AsyncStorage.getItem('@storage_uid');
     const residueShot = await firestore.collection('residues').get();
     const userShot = await firestore.collection('users').get();
@@ -75,6 +76,7 @@ const Donation = () => {
       })
     })
     setResidues(residueArr);
+    setLoading(false)
   }, []);
 
   const handleCompany = useCallback(() => {
@@ -137,36 +139,49 @@ const Donation = () => {
       {index === 1 ?
       <>
         <TitleSection>Reservar</TitleSection>
-        {residues &&
-          <ScrollView>
-            {residues.map(item => {
-                if(item.status === 'avaliable' || item.status === 'requested'){
-                  return (
-                    <>
-                      <Residue
-                        key={item.id}
-                        id={item.id}
-                        disponibility={item.disponibility}
-                        material={item.material}
-                        quantity={item.quantity}
-                        screen={'mydonations'}
-                        status={item.status}
-                        craftsman={item.craftsman}
-                        onChecked={() => setCheckeds1((prevState) =>
-                          {
-                            if(prevState.indexOf(item.id) !== -1){
-                              return(update(prevState, {$splice: [[prevState.indexOf(item.id), 1]]}))
-                            }else{
-                              return([...prevState, item.id])
+        {loading ?
+                <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  padding: 10,
+                }}
+              >
+                <ActivityIndicator size="small" color="#352166" />
+              </View>
+              :
+          residues &&
+            <ScrollView>
+              {residues.map(item => {
+                  if(item.status === 'avaliable' || item.status === 'requested'){
+                    return (
+                      <>
+                        <Residue
+                          key={item.id}
+                          id={item.id}
+                          disponibility={item.disponibility}
+                          material={item.material}
+                          quantity={item.quantity}
+                          screen={'mydonations'}
+                          status={item.status}
+                          craftsman={item.craftsman}
+                          onChecked={() => setCheckeds1((prevState) =>
+                            {
+                              if(prevState.indexOf(item.id) !== -1){
+                                return(update(prevState, {$splice: [[prevState.indexOf(item.id), 1]]}))
+                              }else{
+                                return([...prevState, item.id])
+                              }
                             }
-                          }
-                        )}
-                        />
-                    </>
-                  )
-              }})
-            }
-          </ScrollView>
+                          )}
+                          />
+                      </>
+                    )
+                }})
+              }
+            </ScrollView>
         }
          <View style={{marginLeft: 25, marginRight: 25}}>
             <Button color="purple" disabled={checkeds1.length !== 0 ? false : true} title="Reservar" onPress={() => handleReserve()}/>
@@ -175,37 +190,50 @@ const Donation = () => {
       {index === 2 &&
       <>
         <TitleSection>Doar</TitleSection>
-        {residues &&
-          <ScrollView>
-            {
-              residues.map(item => {
-                if(item.status === 'reserved'){
-                  return (
-                    <>
-                      <Residue
-                        key={item.id}
-                        disponibility={item.disponibility}
-                        material={item.material}
-                        quantity={item.quantity}
-                        screen={'mydonations'}
-                        status={item.status}
-                        craftsman={item.craftsman}
-                        id={item.id}
-                        onChecked={() => setCheckeds2((prevState) =>
-                          {
-                            if(prevState.indexOf(item.id) !== -1){
-                              return(update(prevState, {$splice: [[prevState.indexOf(item.id), 1]]}))
-                            }else{
-                              return([...prevState, item.id])
+        {loading ?
+                <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  padding: 10,
+                }}
+              >
+                <ActivityIndicator size="small" color="#352166" />
+              </View>
+              :
+          residues &&
+            <ScrollView>
+              {
+                residues.map(item => {
+                  if(item.status === 'reserved'){
+                    return (
+                      <>
+                        <Residue
+                          key={item.id}
+                          disponibility={item.disponibility}
+                          material={item.material}
+                          quantity={item.quantity}
+                          screen={'mydonations'}
+                          status={item.status}
+                          craftsman={item.craftsman}
+                          id={item.id}
+                          onChecked={() => setCheckeds2((prevState) =>
+                            {
+                              if(prevState.indexOf(item.id) !== -1){
+                                return(update(prevState, {$splice: [[prevState.indexOf(item.id), 1]]}))
+                              }else{
+                                return([...prevState, item.id])
+                              }
                             }
-                          }
-                        )}
-                      />
-                    </>
-                  )
-              }})
-            }
-          </ScrollView>
+                          )}
+                        />
+                      </>
+                    )
+                }})
+              }
+            </ScrollView>
         }
           <View style={{marginLeft: 25, marginRight: 25}}>
             <Button color="purple" disabled={checkeds2.length !== 0 ? false : true} title="Doar" onPress={() => handleDonate()}/>
@@ -215,7 +243,20 @@ const Donation = () => {
       {index === 3 &&
         <>
           <ScrollView>
-            {residues && residues.map(item => {
+            {loading ?
+                <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  padding: 10,
+                }}
+              >
+                <ActivityIndicator size="small" color="#352166" />
+              </View>
+              :
+              residues && residues.map(item => {
               if(item.status === 'donated'){
                 return (
                     <Residue
