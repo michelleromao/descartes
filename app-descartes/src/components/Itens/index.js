@@ -7,9 +7,9 @@ function Itens() {
   const [value, setValue] = useState(false);
   return (
     <View style={styles.container}>
+      <Text style={styles.text}>Papel - 100gr</Text> 
       <View style={styles.wrapper}>
-       
-      <CheckBox 
+        <CheckBox 
             disabled={false}
             value={value}
             tintColors={{ true: '#ff0000' }}
@@ -18,8 +18,35 @@ function Itens() {
               newvalue,
               })
             }
-      />  
-      <Text style={styles.text}>Papel - 100gr</Text> 
+        />  
+      </View>
+
+      <Text style={styles.text}>Papel - 100gr</Text>
+      <View style={styles.wrapper}>
+        <CheckBox 
+            disabled={false}
+            value={value}
+            tintColors={{ true: '#ff0000' }}
+            onValueChange={(newvalue) =>
+            setValue({
+              newvalue,
+              })
+            }
+        />  
+      </View>
+
+      <Text style={styles.text}>Papel - 100gr</Text>
+      <View style={styles.wrapper}>
+        <CheckBox 
+            disabled={false}
+            value={value}
+            tintColors={{ true: '#ff0000' }}
+            onValueChange={(newvalue) =>
+            setValue({
+              newvalue,
+              })
+            }
+        />  
       </View>
           
     </View>
@@ -40,9 +67,10 @@ const styles = StyleSheet.create({
     },
     wrapper: {
       display: 'flex',
+      justifyContent:'space-around',
       flexDirection: 'row',
       alignContent: 'center',
-      paddingVertical: 15,
+      paddingVertical: 5,
     },
     text: {
       lineHeight: 30,
