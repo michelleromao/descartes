@@ -14,8 +14,7 @@ import Donation from '../screens/Donation';
 import Collections from '../screens/Collections';
 import AddMaterial from '../screens/Empresa/AddMaterial';
 import EditMaterial from '../screens/Empresa/EditMaterial';
-
-
+import Company from '../screens/Company';
 
 import Login from '../screens/Login';
 import CCDados from '../screens/CriarConta/Dados';
@@ -111,6 +110,26 @@ const RootNavigator = () => {
             <Entypo name="chevron-left" size={20} color="#352166" />
           ),
         }}/>
+        <Stack.Screen name="Company" component={Company} options={{
+          headerTitle: 'Empresa',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#6CB9AA',
+          },
+          headerTintColor: '#352166',
+          headerTitleAlign: 'center',
+          headerTitleAllowFontScaling: true,
+          headerTitleStyle: { fontWeight: '600' },
+          cardStyle: { backgroundColor: '#F1F1F1' },
+          headerBackTitle: 'Voltar',
+          headerBackTitleVisible: true,
+          headerBackTitleStyle: { fontSize: 15 },
+          headerPressColorAndroid: 'transparent',
+          headerBackImage: () => (
+            <Entypo name="chevron-left" size={20} color="#352166" />
+          ),
+        }}/>
+
     </Stack.Navigator>
   );
 };

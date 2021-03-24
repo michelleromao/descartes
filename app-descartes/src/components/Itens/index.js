@@ -1,81 +1,40 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState, useCallback} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
+import { CheckIcon, CheckedIcon } from "../Icon"
+import { Container, Content, Row, Title, TitleText, Subtitle } from './styles';
 
-import CheckBox from '@react-native-community/checkbox';
+const Itens = ({id, material, quantity, disponibility, onChecked}) => {
+  const navigation = useNavigation();
+  const [checked, setChecked] = useState(false);
+  const handleCheck = useCallback(() => {
+    if(checked === false){
+      setChecked(true);
+      onChecked([id]);
+    }else{
+      setChecked(false);
+      onChecked([id]);
+    }
+  },[checked]);
 
-function Itens() {
-  const [value, setValue] = useState(false);
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Papel - 100gr</Text> 
-      <View style={styles.wrapper}>
-        <CheckBox 
-            disabled={false}
-            value={value}
-            tintColors={{ true: '#ff0000' }}
-            onValueChange={(newvalue) =>
-            setValue({
-              newvalue,
-              })
-            }
-        />  
-      </View>
-
-      <Text style={styles.text}>Papelão - 10kg</Text>
-      <View style={styles.wrapper}>
-        <CheckBox 
-            disabled={false}
-            value={value}
-            tintColors={{ true: '#ff0000' }}
-            onValueChange={(newvalue) =>
-            setValue({
-              newvalue,
-              })
-            }
-        />  
-      </View>
-
-      <Text style={styles.text}>Tecido - 100m</Text>
-      <View style={styles.wrapper}>
-        <CheckBox 
-            disabled={false}
-            value={value}
-            tintColors={{ true: '#ff0000' }}
-            onValueChange={(newvalue) =>
-            setValue({
-              newvalue,
-              })
-            }
-        />  
-      </View>
-          
-    </View>
-  );
+  return(
+    <Container>
+      <Row>
+        <Content>
+          <Title>
+            <TitleText>{material}</TitleText>
+            <Subtitle>{quantity}</Subtitle>
+          </Title>
+          <Row>
+            <Subtitle>{disponibility}</Subtitle>
+          </Row>
+        </Content>
+        <TouchableOpacity style={{marginRight: 25}} onPress={() => handleCheck()}>
+          {checked ? <CheckedIcon /> : <CheckIcon />}
+        </TouchableOpacity>
+      </Row>
+    </Container>
+  )
 }
 
 export default Itens;
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
-      width: '100%',
-      padding: 16,
-      paddingTop: 100,
-    },
-    wrapper: {
-      display: 'flex',
-      justifyContent:'flex-start',
-      flexDirection: 'row',
-      alignContent: 'center',
-      paddingVertical: 5,
-    },
-    text: {
-      lineHeight: 30,
-      marginLeft: 10,
-      color:'#ff0000',
-      
-    },
-  });

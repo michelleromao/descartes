@@ -13,13 +13,13 @@ import 'firebase/firebase-storage';
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: 'AIzaSyCK4Eb4z6nLA_wv92mpf8CjbCb84Z2V2-Q',
-  authDomain: 'descartespi4.firebaseapp.com',
-  databaseURL: 'https://descartespi4-default-rtdb.firebaseio.com/',
-  projectId: 'descartespi4',
-  storageBucket: 'descartespi4.appspot.com',
-  messagingSenderId: '1046834077879',
-  appId: '1:1046834077879:web:6666cb44d02f05012ced32',
+  apiKey: "AIzaSyDxt1lRrf2aGf5Kwt0QnKe1_CP3OrqIwuQ",
+  authDomain: "descartes-pi42.firebaseapp.com",
+  databaseURL: 'https://descartes-pi42-default-rtdb.firebaseio.com/',
+  projectId: "descartes-pi42",
+  storageBucket: "descartes-pi42.appspot.com",
+  messagingSenderId: "567989266356",
+  appId: "1:567989266356:web:bbed20e536da219508b4e1"
 };
 
 if (!firebase.apps.length) {

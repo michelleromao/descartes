@@ -1,19 +1,19 @@
 import styled from 'styled-components/native';
 
 export const View = styled.View`
-  flex: 1;
   width: 100%;
+  align-items: center;
+  justify-content: center;
 `;
 export const Card = styled.View`
-  height: 220px;
   background: #352166;
+  width: 100%;
   padding: 25px;
 `;
 export const LogoText = styled.Text`
   font-size: 17px;
   color:#F1F1F1;
   width: 134px;
-  height: 25px;
   font-style: normal;
   font-family: 'nunito-bold';
   margin-left: 10px;
@@ -21,6 +21,7 @@ export const LogoText = styled.Text`
 export const Logo = styled.Image`
   width: 50px;
   height: 50px;
+  border-radius: 100px;
 `;
 export const StampImage = styled.Image`
   width: 48px;
@@ -47,7 +48,6 @@ export const EmailIcon = styled.Image`
   width: 15px;
   height: 12px;
   margin-right: 10px;
-
 `;
 export const Email = styled.Text`
   font-size: 13px;
@@ -58,7 +58,7 @@ export const CardFoot = styled.View`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 75px;
+  height: 70px;
   background: #EDCB59;
   padding-left: 20px;
   padding-right: 20px;
@@ -66,9 +66,7 @@ export const CardFoot = styled.View`
 export const Leavings = styled.Text`
   font-size: 13px;
   font-family: 'nunito-bold';
-  line-height: 24px;
   color: #352166;
-
 `;
 export const NumLeavings = styled.Text`
   font-size: 13px;

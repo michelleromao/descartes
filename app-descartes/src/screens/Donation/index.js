@@ -155,7 +155,7 @@ const Donation = () => {
           residues &&
             <ScrollView>
               {residues.map(item => {
-                  if(item.status === 'avaliable' || item.status === 'requested'){
+                  if(item.status === 'requested'){
                     return (
                       <>
                         <Residue
@@ -179,7 +179,27 @@ const Donation = () => {
                           />
                       </>
                     )
-                }})
+                  }
+                })
+              }
+              {residues.map(item => {
+                  if(item.status === 'avaliable' ){
+                    return (
+                      <>
+                        <Residue
+                            key={item.id}
+                            id={item.id}
+                            disponibility={item.disponibility}
+                            material={item.material}
+                            quantity={item.quantity}
+                            screen={'mydonations'}
+                            status={item.status}
+                            craftsman={item.craftsman}
+                          />
+                      </>
+                    )
+                  }
+                })
               }
             </ScrollView>
         }

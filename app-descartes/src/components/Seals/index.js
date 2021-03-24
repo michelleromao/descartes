@@ -29,12 +29,13 @@ class Selos extends React.Component {
     snapshot.forEach((doc) => {
       if(doc.data().id_company === response){
         countAdded = countAdded + 1;
+        if(doc.data().statusAnnounce === 'donated'){
+          countNegotiations = countNegotiations + 1;
+        }
       }
-      if(doc.data().statusAnnounce === 'donated'){
-        countNegotiations = countNegotiations + 1;
-      }
+
     });
-    this.setState({negotiations: countAdded, added: countAdded});
+    this.setState({negotiations: countNegotiations, added: countAdded, value: countNegotiations});
   }
 
   componentDidUpdate(){

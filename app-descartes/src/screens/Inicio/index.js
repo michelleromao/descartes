@@ -118,7 +118,9 @@ const Home = () => {
           const residueShot = await firestore.collection('residues').get();
           residueShot.forEach(doc => {
             if(doc.data().id_material === typeIdStr){
-              companies.push({id_company: doc.data().id_company, quantity: doc.data().quantity, size: doc.data().size});
+              if(doc.data().statusAnnounce === "avaliable"){
+                companies.push({id_company: doc.data().id_company, quantity: doc.data().quantity, size: doc.data().size});
+              }
             }
           });
           if(companies.length !== 0){
@@ -217,7 +219,7 @@ const Home = () => {
                       coordinate={{ latitude: item.lat, longitude: item.lon }}
                       image={Pin2}
                       >
-                     <MapView.Callout tootlip>
+                     <MapView.Callout tootlip onPress={() => navigation.navigate("Company", {id: item.id})}>
                       <View>
                         <Text style={styles.textTooltip}>{item.material}</Text>
                         <ScrollView horizontal>
