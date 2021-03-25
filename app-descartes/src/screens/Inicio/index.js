@@ -4,7 +4,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, StyleSheet, Text, Alert, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 import { firestore } from '../../services/firebase';
@@ -123,6 +123,20 @@ const Home = () => {
               }
             }
           });
+          const usersShot = await firestore.collection('users').get();
+          usersShot.forEach(doc => {
+            companies.forEach((company, i) => {
+              if(doc.id === company.id_company){
+                companies[i] = {
+                  id_company: company.id_company,
+                  name: doc.data().name,
+                  quantity: company.quantity,
+                  size: company.size
+                }
+              }
+            })
+          })
+
           if(companies.length !== 0){
             var addresses = [];
             var quantity = [];
@@ -140,7 +154,7 @@ const Home = () => {
             companies.forEach((item) => {
               companyAddressShot.forEach(doc => {
                 if(doc.data().id_user === item.id_company){
-                  addresses.push({id: doc.data().id_user, lat: doc.data().lat, lon: doc.data().lon, material: filter, quantity: quantity})
+                  addresses.push({id: doc.data().id_user, lat: doc.data().lat, lon: doc.data().lon, material: filter, quantity: quantity, name:item.name})
                 }
             });
           })
@@ -196,46 +210,27 @@ const Home = () => {
                 </MenuButton>
               </MapHeader>
             </View>
-            <MapView
-              provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-              style={styles.map}
-              region={{
-                latitude: latLong.lat,
-                longitude: latLong.lon,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-              }}
-            >
-              <Callout>
-                <Marker
-                  coordinate={{ latitude: latLong.lat, longitude: latLong.lon }}
-                  image={Pin}
-                />
-              </Callout>
-              {latLongCompanies.length !== 0 ? latLongCompanies.map((item) => {
-                  return(
-                    <Marker
-                      key={item.id}
-                      coordinate={{ latitude: item.lat, longitude: item.lon }}
-                      image={Pin2}
-                      >
-                     <MapView.Callout tootlip onPress={() => navigation.navigate("Company", {id: item.id})}>
-                      <View>
-                        <Text style={styles.textTooltip}>{item.material}</Text>
-                        <ScrollView horizontal>
-                          {item.quantity.map((i) =>
-                          <View style={{borderWidth: 1, borderColor: 'black', padding: 1, borderRadius: 2, marginRight: 5}}>
-                            <Text style={{fontSize: 10}}>{i}</Text>
-                          </View>
-                          )}
-                        </ScrollView>
-
-                      </View>
-                    </MapView.Callout>
-                  </Marker>
-                  )
-                }) : false}
-            </MapView>
+            <View>
+              <Carousel />
+            </View>
+            <View style={{width: "100%"}}>
+                {latLongCompanies.length !== 0 ? latLongCompanies.map((item) => {
+                    return(
+                      <TouchableOpacity onPress={() => navigation.navigate("Company", {id: item.id})} style={styles.companies}>
+                        <View>
+                          <Text style={styles.textTooltip}>{item.name} - {item.material}</Text>
+                            <ScrollView horizontal>
+                              {item.quantity.map((i) =>
+                              <View style={{borderWidth: 1, borderColor: 'black', padding: 3, borderRadius: 2, marginRight: 10, marginTop: 10}}>
+                                <Text style={{fontSize: 12, color: "#352166", fontWeight: "bold"}}>{i}</Text>
+                              </View>
+                              )}
+                            </ScrollView>
+                        </View>
+                      </TouchableOpacity>
+                    )
+                  }) : false}
+              </View>
           </View>
         </>
       )}
@@ -315,9 +310,20 @@ const styles = StyleSheet.create({
     height: 50
   },
   textTooltip:{
-    fontWeight: '500'
+    fontWeight: '500',
+    color: "#352166",
+    fontWeight: "bold",
   },
-
+  companies:{
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "#352166",
+    width: "100%",
+    paddingLeft: 20,
+    paddingRight: 25,
+    paddingTop: 15,
+    paddingBottom: 15,
+  }
 });
 
 export default Home;
