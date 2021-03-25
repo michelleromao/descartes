@@ -22,12 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.descartes.pi4",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyCrZdwY_FnPOjAJ8I-0Y2NgcBCxt3fGH7A"
-        }
-      }
+      "package": "com.descartes.pi4"
     },
     "web": {
       "favicon": "./assets/favicon.png"
