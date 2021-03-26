@@ -5,7 +5,7 @@ import 'firebase/auth';
 
 import { View, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { Form } from '@unform/mobile';
-import { auth, firestore } from '../../services/firebase';
+import { auth, firestore } from '../../services/outrofirebase';
 import { AuthContext } from '../../routes/context';
 
 import Input from '../../components/Input';

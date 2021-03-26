@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import update from 'immutability-helper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { firestore } from '../../services/firebase';
+import { firestore } from '../../services/outrofirebase';
 import { View } from 'react-native';
 
 import Residue from "../../components/Residue";

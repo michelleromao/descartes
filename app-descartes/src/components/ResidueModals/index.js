@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import { firestore } from "../../services/firebase";
+import { firestore } from "../../services/outrofirebase";
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 import Button from "../Button";

@@ -1,5 +1,5 @@
 import React, { useState,useEffect, useCallback } from 'react';
-import { firestore } from '../../services/firebase';
+import { firestore } from '../../services/outrofirebase';
 import { useDispatch } from 'react-redux';
 import { setFilter } from "../../store/actions/filter";
 import { ScrollView, View } from 'react-native';

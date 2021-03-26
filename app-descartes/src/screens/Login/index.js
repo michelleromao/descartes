@@ -5,7 +5,7 @@ import 'firebase/auth';
 
 import { View, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { Form } from '@unform/mobile';
-import { auth, firestore } from '../../services/firebase';
+import { auth, firestore } from '../../services/outrofirebase';
 import { AuthContext } from '../../routes/context';
 
 import Input from '../../components/Input';
@@ -15,16 +15,16 @@ import LogoDescartes from '../../assets/logo.png';
 import { ForgotButton, ForgotText, Logo } from './styles';
 
 const Login = ({ navigation }) => {
+
   const { signIn } = React.useContext(AuthContext);
   const [uidUser, setUidUser] = useState('');
   const [loading, setLoading] = useState(false);
   const formRef = useRef(null);
 
   const handleSubmit = useCallback(data => {
-    //if (data.email && data.password) {
       setLoading(true);
       auth
-        .signInWithEmailAndPassword('michelle.nunes10@gmail.com', '123456')
+        .signInWithEmailAndPassword(data.email,data.password)
         .then(userLogged => {
           setUidUser(userLogged.user.uid);
         })
@@ -57,14 +57,7 @@ const Login = ({ navigation }) => {
           );
         }
         });
-   /*} else {
-      Alert.alert(
-        'Ops!',
-        'Campo email e/ou senha vazio.',
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-        { cancelable: false },
-      );
-    }*/
+   
   }, []);
 
   useEffect(() => {

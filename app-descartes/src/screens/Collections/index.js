@@ -1,7 +1,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { firestore } from '../../services/firebase';
+import { firestore } from '../../services/outrofirebase';
 import { Text } from 'react-native';
 
 import Residue from "../../components/Residue";

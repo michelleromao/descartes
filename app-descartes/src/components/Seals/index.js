@@ -1,5 +1,5 @@
 import React from "react";
-import { firestore } from "../../services/firebase";
+import { firestore } from "../../services/outrofirebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Slider } from "@miblanchard/react-native-slider";
 import { Entypo } from '@expo/vector-icons';

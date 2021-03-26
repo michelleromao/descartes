@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, StyleSheet, Text, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
-import { firestore } from '../../services/firebase';
+import { firestore } from '../../services/outrofirebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilter } from "../../store/actions/filter";
 

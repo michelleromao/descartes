@@ -11,7 +11,7 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { auth, firestore } from '../../../services/firebase';
+import { auth, firestore } from '../../../services/outrofirebase';
 import { AuthContext } from '../../../routes/context';
 
 import Button from '../../../components/Button';

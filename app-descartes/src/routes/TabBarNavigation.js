@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { firestore } from '../services/firebase';
+import { firestore } from '../services/outrofirebase';
 import { View, TouchableOpacity } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';

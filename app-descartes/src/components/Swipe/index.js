@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { firestore } from "../../services/firebase";
+import { firestore } from "../../services/outrofirebase";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Ionicons } from '@expo/vector-icons';
 import { View, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
